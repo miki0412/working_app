@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "592285554811",
+    "project_id": "workapp-debad",
+    "storage_bucket": "workapp-debad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592285554811:android:6e18fd7ed20b4d0b40eade",
+        "android_client_info": {
+          "package_name": "com.example.working_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "592285554811-o1vfg9tbhdsebvljnnm5b8vk4tnsndov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrDPeG-UJW_C6a_PnR1UtPavSDCEAf6JE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "592285554811-o1vfg9tbhdsebvljnnm5b8vk4tnsndov.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
