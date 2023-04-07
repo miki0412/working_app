@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:working_app/pages/login_page.dart';
 import 'package:working_app/pages/paidleave_application_page.dart';
 
 
@@ -31,6 +33,13 @@ class CustomDrawer extends HookConsumerWidget{
           ListTile(
             title: Text('お知らせ',style: textStyle),
             onTap: (){},
+          ),
+          ListTile(
+            title: Text('ログアウト',style: textStyle),
+            onTap: () async {
+              await FirebaseAuth.instance.signOut();
+              await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
+            },
           )
         ],
       ),

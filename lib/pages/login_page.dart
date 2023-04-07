@@ -5,20 +5,36 @@ import 'package:working_app/pages/account_edit_page.dart';
 import 'package:working_app/pages/top_page.dart';
 
 class LoginPage extends HookConsumerWidget {
-  LoginPage({super.key});
+  final firebaseAuthProvider =
+      Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
+  final usernameProvider =
+      StateProvider.autoDispose((ref) => TextEditingController());
+  final passwordProvider =
+      StateProvider.autoDispose((ref) => TextEditingController());
 
-  final TextEditingController username = TextEditingController();
-  final TextEditingController password = TextEditingController();
+  bool signCheck = false;
 
-  void Signin() async {
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: username.text,
-        password: password.text,
-      );
+  void checkSignin(){
+    FirebaseAuth.instance.authStateChanges().listen((User?user) {
+      if(user == null){
+        signCheck = false;
+      }else{
+        signCheck = true;
+      }
+    });
+  }
+
+  @override
+  void initState(){
+    checkSignin();
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final firebaseauth = ref.watch(firebaseAuthProvider);
+    final username = ref.watch(usernameProvider);
+    final password = ref.watch(passwordProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -42,14 +58,22 @@ class LoginPage extends HookConsumerWidget {
               text_fild(hinttext: 'パスワード', controller: password),
               const SizedBox(height: 25),
               ElevatedButton(
-                onPressed: () {
-                  try{
-                    Signin();{
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => TopPage()),
+                onPressed: () async {
+                  try {
+                    final User? user =
+                        (await firebaseauth.signInWithEmailAndPassword(
+                      email: username.text,
+                      password: password.text,
+                    )).user;
+                    if (user != null)
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) {
+                          return TopPage();
+                        }),
                       );
-                    }
-                  }catch(e){}
+                  } catch (e) {
+                    const Text('ログインできませんでした');
+                  }
                 },
                 child: const Text('ログイン'),
               ),
