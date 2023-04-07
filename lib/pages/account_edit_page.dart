@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:working_app/model.dart';
 
 
 class AccountEditPage extends HookConsumerWidget{
@@ -34,10 +35,7 @@ class AccountEditPage extends HookConsumerWidget{
   @override
   Widget build(BuildContext context,WidgetRef ref){
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('アカウント追加',style: TextStyle(color: Color(0xFFFFFFFF)),),
-        backgroundColor: const Color(0xFF3CB371),
-      ),
+      appBar: const appbarmodel(title: 'アカウント追加'),
       body: Container(
         margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
         child: Column(

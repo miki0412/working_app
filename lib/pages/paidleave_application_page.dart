@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:working_app/model.dart';
 import 'package:working_app/pages/custom_drawer.dart';
 
 final monthprovider = StateProvider((ref) => '月');
@@ -29,10 +30,7 @@ class PaidleaveApplicationPage extends HookConsumerWidget {
     final _month = ref.watch(monthprovider);
     final _day = ref.watch(dayProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('有給休暇申請'),
-        backgroundColor: const Color(0xFF3CB371),
-      ),
+      appBar: const appbarmodel(title:'有給休暇申請'),
       endDrawer: const CustomDrawer(),
       body: Container(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),

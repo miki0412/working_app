@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:working_app/model.dart';
 import 'package:working_app/pages/custom_drawer.dart';
 
 class TopPage extends HookConsumerWidget{
@@ -13,10 +14,7 @@ class TopPage extends HookConsumerWidget{
   Widget build(BuildContext context,WidgetRef ref){
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('トップページ',style: TextStyle(color: Color(0xFFFFFFFF),),),
-        backgroundColor: const Color(0xFF3CB371),
-      ),
+      appBar: const appbarmodel(title:'トップページ'),
       endDrawer: const CustomDrawer(),
       body: Container(
         margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),

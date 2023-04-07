@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/pages/login_page.dart';
 import 'package:working_app/pages/paidleave_application_page.dart';
+import 'package:working_app/pages/request_lists_page.dart';
 
 
 class CustomDrawer extends HookConsumerWidget{
@@ -15,10 +16,10 @@ class CustomDrawer extends HookConsumerWidget{
         children: <Widget>[
           const Padding(padding: EdgeInsets.only(top: 20),),
           ListTile(
-            title: Text('各種届出',style: textStyle),
+            title: Text('申請一覧',style: textStyle),
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => PaidleaveApplicationPage(),
+                builder: (context) => const RequestListsPage(),
               ),
             ),
           ),
