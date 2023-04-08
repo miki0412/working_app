@@ -31,19 +31,19 @@ class RequestListsPage extends HookConsumerWidget{
                 child: Text('時間外申請',style: textstyle),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             sizedbox(
               widthsize: double.infinity,
               heightsize: 50,
               child: ElevatedButton(onPressed: (){},child: Text('休日出勤申請',style: textstyle),),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             sizedbox(
               widthsize: double.infinity,
               heightsize: 50,
               child: ElevatedButton(onPressed: (){},child: Text('出張申請',style: textstyle),),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             sizedbox(
               widthsize: double.infinity,
               heightsize: 50,
@@ -51,7 +51,7 @@ class RequestListsPage extends HookConsumerWidget{
                 onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaidleaveApplicationPage()));},
                 child: Text('有給休暇申請',style: textstyle),
             ),),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             sizedbox(
               widthsize: double.infinity,
               heightsize: 50,
@@ -64,4 +64,4 @@ class RequestListsPage extends HookConsumerWidget{
   }
 }
 
-TextStyle textstyle = const TextStyle(fontSize: 15);
+TextStyle textstyle = const TextStyle(fontSize: 20);

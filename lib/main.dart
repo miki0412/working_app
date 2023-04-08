@@ -37,6 +37,7 @@ class MyApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context,WidgetRef ref) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: '勤怠アプリ',
       theme: ThemeData(
         // This is the theme of your application.

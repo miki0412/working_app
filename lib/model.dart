@@ -9,8 +9,8 @@ class appbarmodel extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context){
     return AppBar(
-      title: Text(title,style: const TextStyle(color:Color(0xFFFFFFFF),),),
-      backgroundColor:const  Color(0xFF3CB371),
+      title: Text(title,style: TextStyle(color:ColorModel.primary,),),
+      backgroundColor:ColorModel.green,
     );
   }
   @override
@@ -35,4 +35,13 @@ class sizedbox extends StatelessWidget{
       child: child,
     );
   }
+}
+
+class ColorModel{
+  static Color primary = const Color(0xFF000000);
+  static Color white = const Color(0xFFFFFFFF);
+  static Color green = const Color(0xFF3CB371);
+  static Color red = const Color(0xFFFF0000);
+  static Color orange = const Color(0xFFFFA500);
+  static Color pink = const Color(0xFFFFC0CB);
 }
