@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/model.dart';
+import 'package:working_app/pages/businesstrip_application_page.dart';
 import 'package:working_app/pages/custom_drawer.dart';
 import 'package:working_app/pages/offhours_application_page.dart';
 import 'package:working_app/pages/paidleave_application_page.dart';
+import 'package:working_app/pages/holidaywork_application_page.dart';
+import 'package:working_app/pages/substituteholiday_application_page.dart';
 
 class RequestListsPage extends HookConsumerWidget{
   const RequestListsPage ({super.key});
@@ -35,13 +38,19 @@ class RequestListsPage extends HookConsumerWidget{
             sizedbox(
               widthsize: double.infinity,
               heightsize: 50,
-              child: ElevatedButton(onPressed: (){},child: Text('休日出勤申請',style: textstyle),),
+              child: ElevatedButton(
+                onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder:(context)=> HolidayworkApplicationPage()));},
+                child: Text('休日出勤申請',style: textstyle),
+              ),
             ),
             const SizedBox(height: 20),
             sizedbox(
               widthsize: double.infinity,
               heightsize: 50,
-              child: ElevatedButton(onPressed: (){},child: Text('出張申請',style: textstyle),),
+              child: ElevatedButton(
+                onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=> BusinesstripApplicationPage()));},
+                child: Text('出張申請',style: textstyle),
+              ),
             ),
             const SizedBox(height: 20),
             sizedbox(
@@ -55,7 +64,10 @@ class RequestListsPage extends HookConsumerWidget{
             sizedbox(
               widthsize: double.infinity,
               heightsize: 50,
-              child: ElevatedButton(onPressed: (){},child: Text('振替休日申請',style: textstyle),),
+              child: ElevatedButton(
+                onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SubstituteholidayApplicationPage()));},
+                child: Text('振替休日申請',style: textstyle),
+              ),
             ),
           ],
         ),
