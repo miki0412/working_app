@@ -19,7 +19,7 @@ class RequestListsPage extends HookConsumerWidget{
       ),
       endDrawer: const CustomDrawer(),
       body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 30,horizontal: 10),
+        margin: const EdgeInsets.only(top: 30,right: 10,left: 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -19,23 +19,17 @@ class SubstituteholidayApplicationPage extends HookConsumerWidget{
         title: '振替休日申請',
       ),
       endDrawer: const CustomDrawer(),
-      body: Container(
+      body: SingleChildScrollView(child:Container(
         margin: const EdgeInsets.symmetric(vertical: 30,horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: double.infinity,
-              child: const FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text('振替休日を申請する場合は2日前までに提出してください'),
-              ),
-            ),
+             const Text('振替休日を申請する場合は2日前までに提出してください'),
             const SizedBox(height: 10),
             const Text('振替をする日にちを入力してください'),
             const SizedBox(height: 5),
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 10),
+              padding: const EdgeInsets.only(top: 15,right: 10,left:10),
               child:Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -99,7 +93,7 @@ class SubstituteholidayApplicationPage extends HookConsumerWidget{
               ),),
           ],
         ),
-      ),
+      ),),
     );
   }
 }

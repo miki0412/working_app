@@ -21,18 +21,12 @@ class HolidayworkApplicationPage extends HookConsumerWidget{
         title: '休日出勤申請',
       ),
       endDrawer: const CustomDrawer(),
-      body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 30,horizontal: 10),
+      body: SingleChildScrollView(child:Container(
+        margin: const EdgeInsets.only(top: 30,right: 10,left: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: double.infinity,
-              child: const FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text('休日出勤をする場合は前日の15時までに提出してください'),
-              ),
-            ),
+            const Text('休日出勤をする場合は前日の15時までに提出してください'),
             const SizedBox(height: 10),
             const Text('休日出勤をする日にち及び時間を入力してください'),
             const SizedBox(height: 5),
@@ -113,7 +107,7 @@ class HolidayworkApplicationPage extends HookConsumerWidget{
               ),),
           ],
         ),
-      ),
+      ),),
     );
   }
 }

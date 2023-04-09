@@ -26,19 +26,13 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: double.infinity,
-                child: const FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text('出発１週間前間までに提出してください'),
-                ),
-              ),
+               const Text('出発１週間前間までに提出してください'),
               const SizedBox(height: 10),
               const Text('項目を全て入力してください'),
               const SizedBox(height: 5),
               Container(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                    const EdgeInsets.only(top: 15, right: 10,left: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

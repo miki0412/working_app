@@ -2,16 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/pages/account_edit_page.dart';
-import 'package:working_app/pages/administrator_login_page.dart';
 import 'package:working_app/pages/top_page.dart';
 
-class LoginPage extends HookConsumerWidget {
+class AdministratorLoginPage extends HookConsumerWidget {
   final firebaseAuthProvider =
-      Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
+  Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
   final usernameProvider =
-      StateProvider.autoDispose((ref) => TextEditingController());
+  StateProvider.autoDispose((ref) => TextEditingController());
   final passwordProvider =
-      StateProvider.autoDispose((ref) => TextEditingController());
+  StateProvider.autoDispose((ref) => TextEditingController());
 
   bool signCheck = false;
 
@@ -39,7 +38,7 @@ class LoginPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'ログイン(従業員ページ）',
+          'ログイン(管理者ページ）',
           style: TextStyle(color: Color(0xFFFFFFFF)),
         ),
         backgroundColor: const Color(0xFF3CB371),
@@ -63,9 +62,9 @@ class LoginPage extends HookConsumerWidget {
                   try {
                     final User? user =
                         (await firebaseauth.signInWithEmailAndPassword(
-                      email: username.text,
-                      password: password.text,
-                    )).user;
+                          email: username.text,
+                          password: password.text,
+                        )).user;
                     if (user != null)
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) {
@@ -87,8 +86,8 @@ class LoginPage extends HookConsumerWidget {
                 child: const Text('アカウントをお持ちでない方はこちらから'),
               ),
               TextButton(
-                onPressed: () => {Navigator.of(context).push(MaterialPageRoute(builder: (context) => AdministratorLoginPage()))},
-                child: const Text('管理者の方はこちらから'),
+                onPressed: () {},
+                child: const Text('従業員の方はこちらから'),
               )
             ],
           ),
@@ -102,10 +101,10 @@ final isObscureProvider = StateProvider((ref) => true);
 
 class text_fild extends HookConsumerWidget {
   const text_fild({
-    super.key,
-    required this.hinttext,
-    required this.controller,
-    this.pass = true,
+  super.key,
+  required this.hinttext,
+  required this.controller,
+  this.pass = true,
   });
 
   final String hinttext;
@@ -125,13 +124,13 @@ class text_fild extends HookConsumerWidget {
         decoration: InputDecoration(
           suffixIcon: pass
               ? IconButton(
-                  onPressed: () {
-                    ref.read(isObscureProvider.notifier).state = !isObscure;
-                  },
-                  icon: Icon(
-                    isObscure ? Icons.visibility_off : Icons.visibility,
-                  ),
-                )
+            onPressed: () {
+              ref.read(isObscureProvider.notifier).state = !isObscure;
+            },
+            icon: Icon(
+              isObscure ? Icons.visibility_off : Icons.visibility,
+            ),
+          )
               : null,
           hintText: hinttext,
         ),

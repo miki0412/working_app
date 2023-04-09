@@ -21,8 +21,8 @@ class OffhoursApplicationPage extends HookConsumerWidget{
         title: '時間外申請',
       ),
       endDrawer: const CustomDrawer(),
-      body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 30,horizontal: 10),
+      body: SingleChildScrollView(child:Container(
+        margin: const EdgeInsets.only(top: 30,right: 10,left: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -113,7 +113,7 @@ class OffhoursApplicationPage extends HookConsumerWidget{
             ),),
           ],
         ),
-      ),
+      ),),
     );
   }
 }

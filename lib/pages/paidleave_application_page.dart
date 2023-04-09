@@ -3,57 +3,141 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/model.dart';
 import 'package:working_app/pages/custom_drawer.dart';
 
-final monthprovider = StateProvider((ref) => '月');
-final dayProvider = StateProvider((ref) => '日');
 
-class PaidleaveApplicationPage extends HookConsumerWidget {
+class PaidleaveApplicationPage extends HookConsumerWidget{
   PaidleaveApplicationPage({super.key});
 
-  final lists = <String>[
-    '月',
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12'
-  ];
+  final TextEditingController month = TextEditingController();
+  final TextEditingController day = TextEditingController();
+  final TextEditingController hour = TextEditingController();
+  final TextEditingController minute = TextEditingController();
+  final placeProvider = StateProvider((ref) => '有給取得日数を選択してください');
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final _month = ref.watch(monthprovider);
-    final _day = ref.watch(dayProvider);
+  Widget build(BuildContext context,WidgetRef ref){
+    final lists = <String>[
+      '有給取得日数を選択してください',
+      '0.5日間',
+      '1日間',
+      '1.5日間',
+      '2日間',
+      '2.5日間',
+      '3日間',
+    ];
+    final place = ref.watch(placeProvider);
     return Scaffold(
-      appBar: const appbarmodel(title:'有給休暇申請'),
+      appBar: const appbarmodel(
+        title: '有給休暇申請',
+      ),
       endDrawer: const CustomDrawer(),
-      body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      body: SingleChildScrollView(child:Container(
+        margin: const EdgeInsets.only(top: 30,right: 10,left: 10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('有給取得日'),
-            Row(
-              children: [
-                DropdownButton<String>(
-                    value: _month,
-                    items: lists
-                        .map((String list) =>
-                            DropdownMenuItem(value: list, child: Text(list)))
-                        .toList(),
-                    onChanged: (String? value) {
-                      ref.read(monthprovider.notifier).state = value!;
-                    }),
-                const Text('月'),
-              ],
-            ),
+            const Text('有給休暇申請取得2日前までに申請するようにしましょう'),
+            const SizedBox(height: 10),
+            const Text('有給休暇を取得する日にちを入力してください'),
+            const SizedBox(height: 5),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 10),
+              child:Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(child: container(controller: month, hinttext: '月'),),
+                      const Text('月'),
+                      Expanded(
+                          child: container(
+                              controller: day,
+                              hinttext: '日'
+                          )
+                      ),
+                      const Text('日'),
+                  const Text('〜',textAlign: TextAlign.end,),
+                      Expanded(child: container(controller: month, hinttext: '月'),),
+                      const Text('月'),
+                      Expanded(
+                          child: container(
+                              controller: day,
+                              hinttext: '日'
+                          )
+                      ),
+                      const Text('日'),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(vertical: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 7),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: ColorModel.primary),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child:DropdownButton(
+                      isExpanded:true,
+                      underline: Container(),
+                      items: lists.map((String lists) => DropdownMenuItem(value:lists,child:Text(lists))).toList(),
+                      value: place,
+                      onChanged: (String? value){ref.read(placeProvider.notifier).state = value!;},
+                    ),),
+                  Container(
+                    margin: const EdgeInsets.only(top: 15,bottom:15),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: ColorModel.primary),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child:TextFormField(
+                      maxLines: 5,
+                      decoration: const InputDecoration(
+                        hintText: '理由を入力してください',
+                        border: OutlineInputBorder(),
+                      ),
+
+                    ),),
+                  const SizedBox(height: 30),
+                  sizedbox(
+                      widthsize: double.infinity,
+                      heightsize: 40,
+                      child: ElevatedButton(
+                        onPressed: (){},
+                        child: const Text('申請する',style: TextStyle(fontSize: 15),),
+                      )
+                  ),
+                ],
+              ),),
           ],
+        ),
+      ),),
+    );
+  }
+}
+
+class container extends StatelessWidget{
+  const container({
+    required this.controller,
+    required this.hinttext,
+  });
+  final TextEditingController controller;
+  final String hinttext;
+
+  @override
+  Widget build(BuildContext context){
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: const Color(0xFF000000),),
+        color: ColorModel.white,
+      ),
+      child: TextFormField(
+        decoration: InputDecoration(
+          hintText: hinttext,
+          border: const OutlineInputBorder(),
         ),
       ),
     );
   }
 }
+
