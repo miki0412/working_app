@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/model.dart';
@@ -6,10 +7,24 @@ import 'package:working_app/pages/custom_drawer.dart';
 class BusinesstripApplicationPage extends HookConsumerWidget {
   BusinesstripApplicationPage({super.key});
 
+  void applications() async {
+    await FirebaseFirestore.instance.collection('applications').doc().set({
+      'month': month.text,
+      'day':day.text,
+      '_month':_month.text,
+      '_day':_day.text,
+      'tripplace':tripplace.text,
+      'thepurpose':thepurpose.text,
+    });
+  }
+
   final TextEditingController month = TextEditingController();
   final TextEditingController day = TextEditingController();
-  final TextEditingController hour = TextEditingController();
+  final TextEditingController _month = TextEditingController();
+  final TextEditingController _day = TextEditingController();
   final TextEditingController minute = TextEditingController();
+  final TextEditingController tripplace = TextEditingController();
+  final TextEditingController thepurpose = TextEditingController();
   final placeProvider = StateProvider((ref) => '交通手段を選択してください');
 
   @override
@@ -48,17 +63,17 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
                         const Text('日'),
                         const Text('〜'),
                         Expanded(
-                          child: container(controller: month, hinttext: '月'),
+                          child: container(controller: _month, hinttext: '月'),
                         ),
                         const Text('月'),
                         Expanded(
-                            child: container(controller: day, hinttext: '日')),
+                            child: container(controller: _day, hinttext: '日')),
                         const Text('日'),
                       ],
                     ),
                     const SizedBox(height: 10),
                     container(
-                      controller: day,
+                      controller: tripplace,
                       hinttext: '出張先を入力してください',
                     ),
                     const SizedBox(height: 10),
@@ -113,6 +128,7 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
                       ),
                       child: TextFormField(
                         maxLines: 10,
+                        controller: thepurpose,
                         decoration: const InputDecoration(
                           hintText: '出張の目的を入力してください',
                           border: OutlineInputBorder(),
@@ -124,7 +140,7 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
                         widthsize: double.infinity,
                         heightsize: 40,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {applications();},
                           child: const Text(
                             '申請する',
                             style: TextStyle(fontSize: 15),
@@ -161,6 +177,7 @@ class container extends StatelessWidget {
         color: ColorModel.white,
       ),
       child: TextFormField(
+        controller: controller,
         decoration: InputDecoration(
           hintText: hinttext,
           border: const OutlineInputBorder(),
