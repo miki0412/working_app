@@ -45,3 +45,4 @@ class ColorModel{
   static Color orange = const Color(0xFFFFA500);
   static Color pink = const Color(0xFFFFC0CB);
 }
+

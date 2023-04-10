@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/pages/account_edit_page.dart';
 import 'package:working_app/pages/top_page.dart';
+import 'package:working_app/pages/administrator_account_edit_page.dart';
 
 class AdministratorLoginPage extends HookConsumerWidget {
   final firebaseAuthProvider =
@@ -23,6 +25,8 @@ class AdministratorLoginPage extends HookConsumerWidget {
       }
     });
   }
+
+  //Future<DocumentSnapshot> userDoc = FirebaseFirestore.instance.collection('administrator').get();
 
   @override
   void initState(){
@@ -80,7 +84,7 @@ class AdministratorLoginPage extends HookConsumerWidget {
               TextButton(
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => AccountEditPage(),
+                    builder: (context) => AdministratorAccountEditPage(),
                   ),
                 ),
                 child: const Text('アカウントをお持ちでない方はこちらから'),

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/model.dart';
@@ -9,9 +10,20 @@ class PaidleaveApplicationPage extends HookConsumerWidget{
 
   final TextEditingController month = TextEditingController();
   final TextEditingController day = TextEditingController();
-  final TextEditingController hour = TextEditingController();
-  final TextEditingController minute = TextEditingController();
+  final TextEditingController _month = TextEditingController();
+  final TextEditingController _day = TextEditingController();
+  final TextEditingController thepurpose = TextEditingController();
   final placeProvider = StateProvider((ref) => '有給取得日数を選択してください');
+
+  void application() async{
+    await FirebaseFirestore.instance.collection('有給休暇申請').doc().set({
+      'month':month.text,
+      'day':day.text,
+      '_month':month.text,
+      '_day':_day.text,
+      'thepurpose':thepurpose.text,
+    });
+  }
 
   @override
   Widget build(BuildContext context,WidgetRef ref){
@@ -56,11 +68,11 @@ class PaidleaveApplicationPage extends HookConsumerWidget{
                       ),
                       const Text('日'),
                   const Text('〜',textAlign: TextAlign.end,),
-                      Expanded(child: container(controller: month, hinttext: '月'),),
+                      Expanded(child: container(controller: _month, hinttext: '月'),),
                       const Text('月'),
                       Expanded(
                           child: container(
-                              controller: day,
+                              controller: _day,
                               hinttext: '日'
                           )
                       ),
@@ -90,6 +102,7 @@ class PaidleaveApplicationPage extends HookConsumerWidget{
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child:TextFormField(
+                      controller: thepurpose,
                       maxLines: 5,
                       decoration: const InputDecoration(
                         hintText: '理由を入力してください',
@@ -102,7 +115,7 @@ class PaidleaveApplicationPage extends HookConsumerWidget{
                       widthsize: double.infinity,
                       heightsize: 40,
                       child: ElevatedButton(
-                        onPressed: (){},
+                        onPressed: (){application();},
                         child: const Text('申請する',style: TextStyle(fontSize: 15),),
                       )
                   ),
@@ -132,6 +145,7 @@ class container extends StatelessWidget{
         color: ColorModel.white,
       ),
       child: TextFormField(
+        controller: controller,
         decoration: InputDecoration(
           hintText: hinttext,
           border: const OutlineInputBorder(),

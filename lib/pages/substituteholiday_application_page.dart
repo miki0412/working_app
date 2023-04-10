@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/model.dart';
@@ -9,8 +10,19 @@ class SubstituteholidayApplicationPage extends HookConsumerWidget{
 
   final TextEditingController month = TextEditingController();
   final TextEditingController day = TextEditingController();
-  final TextEditingController hour = TextEditingController();
-  final TextEditingController minute = TextEditingController();
+  final TextEditingController _month = TextEditingController();
+  final TextEditingController _day = TextEditingController();
+  final TextEditingController thepurpose = TextEditingController();
+
+  void application() async{
+    await FirebaseFirestore.instance.collection('振替休日申請').doc().set({
+      'month':month.text,
+      'day':day.text,
+      '_month':_month.text,
+      '_day':_day.text,
+      'thepurpose':thepurpose.text,
+    });
+  }
 
   @override
   Widget build(BuildContext context,WidgetRef ref){
@@ -51,14 +63,14 @@ class SubstituteholidayApplicationPage extends HookConsumerWidget{
                     children:[
                       Expanded(
                         child: container(
-                            controller: month,
+                            controller: _month,
                             hinttext: '月'
                         ),
                       ),
                       const Text('月'),
                       Expanded(
                           child: container(
-                            controller: day,
+                            controller: _day,
                             hinttext: '日',
                           )
                       ),
@@ -73,6 +85,7 @@ class SubstituteholidayApplicationPage extends HookConsumerWidget{
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child:TextFormField(
+                      controller: thepurpose,
                       maxLines: 5,
                       decoration: const InputDecoration(
                         hintText: '理由を入力してください',
@@ -85,7 +98,7 @@ class SubstituteholidayApplicationPage extends HookConsumerWidget{
                       widthsize: double.infinity,
                       heightsize: 40,
                       child: ElevatedButton(
-                        onPressed: (){},
+                        onPressed: (){application();},
                         child: const Text('申請する',style: TextStyle(fontSize: 15),),
                       )
                   ),
@@ -115,6 +128,7 @@ class container extends StatelessWidget{
         color: ColorModel.white,
       ),
       child: TextFormField(
+        controller: controller,
         decoration: InputDecoration(
           hintText: hinttext,
           border: const OutlineInputBorder(),

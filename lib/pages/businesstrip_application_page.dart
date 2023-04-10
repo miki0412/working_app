@@ -8,7 +8,7 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
   BusinesstripApplicationPage({super.key});
 
   void applications() async {
-    await FirebaseFirestore.instance.collection('applications').doc().set({
+    await FirebaseFirestore.instance.collection('出張申請').doc().set({
       'month': month.text,
       'day':day.text,
       '_month':_month.text,

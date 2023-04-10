@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/model.dart';
@@ -11,7 +12,23 @@ class HolidayworkApplicationPage extends HookConsumerWidget{
   final TextEditingController day = TextEditingController();
   final TextEditingController hour = TextEditingController();
   final TextEditingController minute = TextEditingController();
+  final TextEditingController _hour =TextEditingController();
+  final TextEditingController _minute = TextEditingController();
+  final TextEditingController thepurpose = TextEditingController();
+
   final placeProvider = StateProvider((ref) => '場所を選択してください');
+
+  void applications() async {
+    await FirebaseFirestore.instance.collection('休日出勤申請').doc().set({
+      'month':month.text,
+      'day':day.text,
+      'hour':hour.text,
+      'minute':minute.text,
+      '_hour':_hour.text,
+      '_minute':minute.text,
+      'thepurpose':thepurpose.text,
+    });
+  }
 
   @override
   Widget build(BuildContext context,WidgetRef ref){
@@ -55,9 +72,9 @@ class HolidayworkApplicationPage extends HookConsumerWidget{
                       Expanded(child: container(controller: minute, hinttext: '分'),),
                       const Text('分'),
                       const Text('〜'),
-                      Expanded(child: container(controller: hour, hinttext: '時'),),
+                      Expanded(child: container(controller: _hour, hinttext: '時'),),
                       const Text('時'),
-                      Expanded(child: container(controller: minute, hinttext: '分'),),
+                      Expanded(child: container(controller: _minute, hinttext: '分'),),
                       const Text('分'),
                     ],
                   ),
@@ -87,6 +104,7 @@ class HolidayworkApplicationPage extends HookConsumerWidget{
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child:TextFormField(
+                      controller: thepurpose,
                       maxLines: 5,
                       decoration: const InputDecoration(
                         hintText: '理由を入力してください',
@@ -99,7 +117,7 @@ class HolidayworkApplicationPage extends HookConsumerWidget{
                       widthsize: double.infinity,
                       heightsize: 40,
                       child: ElevatedButton(
-                        onPressed: (){},
+                        onPressed: (){applications();},
                         child: const Text('申請する',style: TextStyle(fontSize: 15),),
                       )
                   ),
@@ -129,6 +147,7 @@ class container extends StatelessWidget{
         color: ColorModel.white,
       ),
       child: TextFormField(
+        controller: controller,
         decoration: InputDecoration(
           hintText: hinttext,
           border: const OutlineInputBorder(),
