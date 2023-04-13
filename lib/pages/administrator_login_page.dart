@@ -73,6 +73,11 @@ class AdministratorLoginPage extends HookConsumerWidget {
               ElevatedButton(
                 onPressed: () async {
                   try {
+                    final userId = FirebaseAuth.instance.currentUser?.uid;
+                    DocumentSnapshot documentsnapshot = await FirebaseFirestore.instance.collection('administrator').doc(userId).get();
+                    if(documentsnapshot.exists){
+                      bool isFildTrue = documentsnapshot.get('isAdmin') == true;
+                      if(isFildTrue){
                         final User? user =
                             (await firebaseauth.signInWithEmailAndPassword(
                               email: username.text,
@@ -84,6 +89,8 @@ class AdministratorLoginPage extends HookConsumerWidget {
                               return AdminstratorTopPage();
                             }),
                           );
+                      }
+                    }
                   } catch (e) {
                     const Text('ログインできませんでした');
                   }
