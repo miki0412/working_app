@@ -13,6 +13,7 @@ class PaidleaveApplicationPage extends HookConsumerWidget{
   final TextEditingController _month = TextEditingController();
   final TextEditingController _day = TextEditingController();
   final TextEditingController thepurpose = TextEditingController();
+  final TextEditingController offdays = TextEditingController();
   final placeProvider = StateProvider((ref) => '有給取得日数を選択してください');
 
   void application() async{
@@ -22,6 +23,7 @@ class PaidleaveApplicationPage extends HookConsumerWidget{
       '_month':month.text,
       '_day':_day.text,
       'thepurpose':thepurpose.text,
+      'offdays':offdays.text,
     });
   }
 
@@ -93,7 +95,10 @@ class PaidleaveApplicationPage extends HookConsumerWidget{
                       underline: Container(),
                       items: lists.map((String lists) => DropdownMenuItem(value:lists,child:Text(lists))).toList(),
                       value: place,
-                      onChanged: (String? value){ref.read(placeProvider.notifier).state = value!;},
+                      onChanged: (String? value){
+                        ref.read(placeProvider.notifier).state = value!;
+                        offdays.text = value!;
+                        },
                     ),),
                   Container(
                     margin: const EdgeInsets.only(top: 15,bottom:15),

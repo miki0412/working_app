@@ -8,9 +8,10 @@ class AdministratorAccountEditPage extends HookConsumerWidget{
   AdministratorAccountEditPage({super.key});
 
   void AddUser() async{
+    bool isAdmin = true;
     UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email.text,
-        password: password.text,
+      email: email.text,
+      password: password.text,
     );
     User user = userCredential.user!;
     FirebaseFirestore.instance.collection('administrator').doc(user.uid).set({
@@ -19,6 +20,7 @@ class AdministratorAccountEditPage extends HookConsumerWidget{
       '電話番号':phonenum.text,
       'メールアドレス':email.text,
       'パスワード':password.text,
+      'isAdmin': isAdmin,
     });
   }
 
@@ -29,6 +31,7 @@ class AdministratorAccountEditPage extends HookConsumerWidget{
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController _password = TextEditingController();
+
 
   @override
   Widget build(BuildContext context,WidgetRef ref){

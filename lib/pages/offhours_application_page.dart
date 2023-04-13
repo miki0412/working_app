@@ -15,6 +15,7 @@ class OffhoursApplicationPage extends HookConsumerWidget{
   final TextEditingController _hour = TextEditingController();
   final TextEditingController _minute = TextEditingController();
   final TextEditingController thepurpose = TextEditingController();
+  final TextEditingController offhoursworkplace = TextEditingController();
   final placeProvider = StateProvider((ref) => '残業場所を選択してください');
 
   void applications() async {
@@ -26,6 +27,7 @@ class OffhoursApplicationPage extends HookConsumerWidget{
       '_hour':_hour.text,
       '_minute':_minute.text,
       'thepurpose':thepurpose.text,
+      'offhourswokplace':offhoursworkplace.text,
     });
   }
 
@@ -100,7 +102,10 @@ class OffhoursApplicationPage extends HookConsumerWidget{
                       DropdownMenuItem(value:'現場',child: Text('現場'),),
                     ],
                     value: place,
-                    onChanged: (String? value){ref.read(placeProvider.notifier).state = value!;},
+                    onChanged: (String? value){
+                      ref.read(placeProvider.notifier).state = value!;
+                      offhoursworkplace.text = value!;
+                      },
                   ),),
                 Container(
                   margin: const EdgeInsets.only(top: 15,bottom:15),

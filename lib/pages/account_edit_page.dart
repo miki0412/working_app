@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,7 +10,7 @@ import 'package:working_app/model.dart';
 class AccountEditPage extends HookConsumerWidget{
   AccountEditPage({super.key});
 
-  void editUser()async{
+  void editUser() async{
     UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email.text,
         password: password.text
@@ -42,13 +43,13 @@ class AccountEditPage extends HookConsumerWidget{
           crossAxisAlignment:CrossAxisAlignment.center,
           children: [
             textfild(
-                hinttext: '会社名',
-                controller: companyname,
+              hinttext: '会社名',
+              controller: companyname,
             ),
             sized_box,
             textfild(
-                hinttext: '住所',
-                controller: adress,
+              hinttext: '住所',
+              controller: adress,
             ),
             sized_box,
             textfild(
@@ -62,21 +63,21 @@ class AccountEditPage extends HookConsumerWidget{
             ),
             sized_box,
             textfild(
-                hinttext: '代表者名',
-                controller: representative,
+              hinttext: '代表者名',
+              controller: representative,
             ),
             sized_box,
             textfild(
-                hinttext: 'パスワード',
-                controller: password,
-                //isVisible: true,
+              hinttext: 'パスワード',
+              controller: password,
+              //isVisible: true,
             ),
             sized_box,
             Text(password.text != _password.text?'':'パスワードが一致しません',style: const TextStyle(color: Colors.red),),
             textfild(
-                hinttext: 'パスワード（確認用）',
-                controller: _password,
-                //isVisible : true,
+              hinttext: 'パスワード（確認用）',
+              controller: _password,
+              //isVisible : true,
             ),
             sized_box,
             ElevatedButton(
@@ -92,10 +93,10 @@ class AccountEditPage extends HookConsumerWidget{
 
 class textfild extends HookConsumerWidget{
   const textfild({
-    super.key,
-    required this.hinttext,
-    required this.controller,
-    this.isVisible = false,
+  super.key,
+  required this.hinttext,
+  required this.controller,
+  this.isVisible = false,
   });
   final String hinttext;
   final TextEditingController controller;

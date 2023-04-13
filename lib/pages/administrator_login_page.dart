@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/pages/account_edit_page.dart';
+import 'package:working_app/pages/adminstrator_top_page.dart';
 import 'package:working_app/pages/top_page.dart';
 import 'package:working_app/pages/administrator_account_edit_page.dart';
 
@@ -32,6 +33,14 @@ class AdministratorLoginPage extends HookConsumerWidget {
   void initState(){
     checkSignin();
   }
+
+  // Future _administrator() async {
+  //   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  //   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  //   final userId = _firebaseAuth.currentUser?.uid;
+  //   DocumentSnapshot snapshot = await _firestore.collection('administrator').doc('administrator/$userId').get();
+  //   return snapshot.get('isAdmin');
+  // }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -64,17 +73,17 @@ class AdministratorLoginPage extends HookConsumerWidget {
               ElevatedButton(
                 onPressed: () async {
                   try {
-                    final User? user =
-                        (await firebaseauth.signInWithEmailAndPassword(
-                          email: username.text,
-                          password: password.text,
-                        )).user;
-                    if (user != null)
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) {
-                          return TopPage();
-                        }),
-                      );
+                        final User? user =
+                            (await firebaseauth.signInWithEmailAndPassword(
+                              email: username.text,
+                              password: password.text,
+                            )).user;
+                        if (user != null)
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) {
+                              return AdminstratorTopPage();
+                            }),
+                          );
                   } catch (e) {
                     const Text('ログインできませんでした');
                   }

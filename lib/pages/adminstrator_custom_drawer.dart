@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/pages/administrator_login_page.dart';
 import 'package:working_app/pages/adminstrator_top_page.dart';
+import 'package:working_app/pages/employee_management_page.dart';
 
 class AdminstratorCustomDrawer extends HookConsumerWidget {
   const AdminstratorCustomDrawer({super.key});
@@ -34,7 +35,7 @@ class AdminstratorCustomDrawer extends HookConsumerWidget {
                 Text('各種情報管理', style: textStyle),
               ],
             ),
-            onTap: (){},
+            onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=> EmployeeManagementPage()));},
           ),
           ListTile(
             title: Row(

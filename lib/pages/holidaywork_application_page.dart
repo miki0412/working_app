@@ -15,6 +15,7 @@ class HolidayworkApplicationPage extends HookConsumerWidget{
   final TextEditingController _hour =TextEditingController();
   final TextEditingController _minute = TextEditingController();
   final TextEditingController thepurpose = TextEditingController();
+  final TextEditingController holidayworkplace = TextEditingController();
 
   final placeProvider = StateProvider((ref) => '場所を選択してください');
 
@@ -27,6 +28,7 @@ class HolidayworkApplicationPage extends HookConsumerWidget{
       '_hour':_hour.text,
       '_minute':minute.text,
       'thepurpose':thepurpose.text,
+      'holidayworkplace':holidayworkplace.text,
     });
   }
 
@@ -95,7 +97,10 @@ class HolidayworkApplicationPage extends HookConsumerWidget{
                         DropdownMenuItem(value:'現場',child: Text('現場'),),
                       ],
                       value: place,
-                      onChanged: (String? value){ref.read(placeProvider.notifier).state = value!;},
+                      onChanged: (value){
+                        ref.read(placeProvider.notifier).state = value!;
+                        holidayworkplace.text = value!;
+                        },
                     ),),
                   Container(
                     margin: const EdgeInsets.only(top: 15,bottom:15),

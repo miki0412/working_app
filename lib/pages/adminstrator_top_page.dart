@@ -12,7 +12,7 @@ class AdminstratorTopPage extends HookConsumerWidget {
       appBar: const appbarmodel(
         title: 'トップページ（管理者）',
       ),
-      drawer: const AdminstratorCustomDrawer(),
+      endDrawer: const AdminstratorCustomDrawer(),
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(top: 10, right: 10, left: 10),

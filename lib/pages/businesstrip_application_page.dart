@@ -15,6 +15,7 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
       '_day':_day.text,
       'tripplace':tripplace.text,
       'thepurpose':thepurpose.text,
+      'tripmethod':tripmethod.text,
     });
   }
 
@@ -25,6 +26,7 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
   final TextEditingController minute = TextEditingController();
   final TextEditingController tripplace = TextEditingController();
   final TextEditingController thepurpose = TextEditingController();
+  final TextEditingController tripmethod = TextEditingController();
   final placeProvider = StateProvider((ref) => '交通手段を選択してください');
 
   @override
@@ -115,8 +117,9 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
                           ),
                         ],
                         value: place,
-                        onChanged: (String? value) {
+                        onChanged: (value) {
                           ref.read(placeProvider.notifier).state = value!;
+                          tripmethod.text = value!;
                         },
                       ),
                     ),
