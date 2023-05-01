@@ -21,6 +21,7 @@ class SubstituteholidayApplicationPage extends HookConsumerWidget{
       '_month':_month.text,
       '_day':_day.text,
       'thepurpose':thepurpose.text,
+      'submissiontime':DateTime.now(),
     });
   }
 

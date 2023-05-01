@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:working_app/pages/administrator_login_page.dart';
-import 'package:working_app/pages/adminstrator_top_page.dart';
+import 'package:working_app/pages/administrator_pages/administrator_login_page.dart';
+import 'package:working_app/pages/administrator_pages/adminstrator_top_page.dart';
 import 'package:working_app/pages/employee_management_page.dart';
 
 class AdminstratorCustomDrawer extends HookConsumerWidget {
@@ -25,7 +25,7 @@ class AdminstratorCustomDrawer extends HookConsumerWidget {
               ],
             ),
             onTap: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => const AdminstratorTopPage())),
+                .push(MaterialPageRoute(builder: (context) => AdminstratorTopPage())),
           ),
           ListTile(
             title: Row(

@@ -29,6 +29,7 @@ class HolidayworkApplicationPage extends HookConsumerWidget{
       '_minute':minute.text,
       'thepurpose':thepurpose.text,
       'holidayworkplace':holidayworkplace.text,
+      'submissiontime':DateTime.now(),
     });
   }
 

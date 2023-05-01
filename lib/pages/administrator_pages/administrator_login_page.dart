@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:working_app/pages/account_edit_page.dart';
-import 'package:working_app/pages/adminstrator_top_page.dart';
-import 'package:working_app/pages/top_page.dart';
-import 'package:working_app/pages/administrator_account_edit_page.dart';
+import 'package:working_app/pages/administrator_pages/adminstrator_top_page.dart';
+import 'package:working_app/pages/login_page.dart';
+import 'package:working_app/pages/administrator_pages/administrator_account_edit_page.dart';
+import 'package:working_app/model.dart';
 
 class AdministratorLoginPage extends HookConsumerWidget {
   final firebaseAuthProvider =
@@ -27,20 +27,10 @@ class AdministratorLoginPage extends HookConsumerWidget {
     });
   }
 
-  //Future<DocumentSnapshot> userDoc = FirebaseFirestore.instance.collection('administrator').get();
-
   @override
   void initState(){
     checkSignin();
   }
-
-  // Future _administrator() async {
-  //   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  //   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  //   final userId = _firebaseAuth.currentUser?.uid;
-  //   DocumentSnapshot snapshot = await _firestore.collection('administrator').doc('administrator/$userId').get();
-  //   return snapshot.get('isAdmin');
-  // }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -75,24 +65,32 @@ class AdministratorLoginPage extends HookConsumerWidget {
                   try {
                     final userId = FirebaseAuth.instance.currentUser?.uid;
                     DocumentSnapshot documentsnapshot = await FirebaseFirestore.instance.collection('administrator').doc(userId).get();
-                    if(documentsnapshot.exists){
-                      bool isFildTrue = documentsnapshot.get('isAdmin') == true;
-                      if(isFildTrue){
-                        final User? user =
                             (await firebaseauth.signInWithEmailAndPassword(
                               email: username.text,
                               password: password.text,
                             )).user;
-                        if (user != null)
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) {
-                              return AdminstratorTopPage();
-                            }),
-                          );
-                      }
+                        if (documentsnapshot.get('isAdmin') == true){
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (BuildContext context) => AdminstratorTopPage()),
+                        );}
+                  }on FirebaseAuthException catch(e){
+                    if (e.code == 'user-not-found'){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('登録されていないメールアドレスです'),
+                          backgroundColor: ColorModel.red,
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    }else if(e.code == 'wrong-password'){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('パスワードが違います'),
+                          backgroundColor: ColorModel.red,
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
                     }
-                  } catch (e) {
-                    const Text('ログインできませんでした');
                   }
                 },
                 child: const Text('ログイン'),
@@ -106,7 +104,9 @@ class AdministratorLoginPage extends HookConsumerWidget {
                 child: const Text('アカウントをお持ちでない方はこちらから'),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                ),
                 child: const Text('従業員の方はこちらから'),
               )
             ],

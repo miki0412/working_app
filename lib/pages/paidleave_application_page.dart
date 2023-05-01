@@ -14,7 +14,7 @@ class PaidleaveApplicationPage extends HookConsumerWidget{
   final TextEditingController _day = TextEditingController();
   final TextEditingController thepurpose = TextEditingController();
   final TextEditingController offdays = TextEditingController();
-  final placeProvider = StateProvider((ref) => '有給取得日数を選択してください');
+  final daysProvider = StateProvider((ref) => '有給取得日数を選択してください');
 
   void application() async{
     await FirebaseFirestore.instance.collection('有給休暇申請').doc().set({
@@ -24,21 +24,12 @@ class PaidleaveApplicationPage extends HookConsumerWidget{
       '_day':_day.text,
       'thepurpose':thepurpose.text,
       'offdays':offdays.text,
+      'submissiontime':DateTime.now(),
     });
   }
 
   @override
   Widget build(BuildContext context,WidgetRef ref){
-    final lists = <String>[
-      '有給取得日数を選択してください',
-      '0.5日間',
-      '1日間',
-      '1.5日間',
-      '2日間',
-      '2.5日間',
-      '3日間',
-    ];
-    final place = ref.watch(placeProvider);
     return Scaffold(
       appBar: const appbarmodel(
         title: '有給休暇申請',
@@ -90,16 +81,22 @@ class PaidleaveApplicationPage extends HookConsumerWidget{
                       border: Border.all(color: ColorModel.primary),
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child:DropdownButton(
-                      isExpanded:true,
-                      underline: Container(),
-                      items: lists.map((String lists) => DropdownMenuItem(value:lists,child:Text(lists))).toList(),
-                      value: place,
-                      onChanged: (String? value){
-                        ref.read(placeProvider.notifier).state = value!;
-                        offdays.text = value!;
-                        },
-                    ),),
+                    child:dropmenu(
+                        lists: const [
+                          '有給取得日数を選択してください',
+                          '0.5日間',
+                          '1日間',
+                          '1.5日間',
+                          '2日間',
+                          '2.5日間',
+                          '3日間',
+                          '3.5日間',
+                          '4日間',
+                        ],
+                        providers: daysProvider,
+                        controller: offdays,
+                    ),
+                  ),
                   Container(
                     margin: const EdgeInsets.only(top: 15,bottom:15),
                     decoration: BoxDecoration(

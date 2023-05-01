@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/model.dart';
 
-
 class AccountEditPage extends HookConsumerWidget{
   AccountEditPage({super.key});
 
@@ -22,6 +21,7 @@ class AccountEditPage extends HookConsumerWidget{
       '電話番号':phonenum.text,
       'メールアドレス':email.text,
       'パスワード':password.text,
+      '追加時間':DateTime.now(),
     });
   }
 
@@ -67,13 +67,14 @@ class AccountEditPage extends HookConsumerWidget{
               controller: representative,
             ),
             sized_box,
+
             textfild(
               hinttext: 'パスワード',
               controller: password,
               //isVisible: true,
             ),
             sized_box,
-            Text(password.text != _password.text?'':'パスワードが一致しません',style: const TextStyle(color: Colors.red),),
+            Text(password.text == _password.text?'':'パスワードが一致しません'),
             textfild(
               hinttext: 'パスワード（確認用）',
               controller: _password,

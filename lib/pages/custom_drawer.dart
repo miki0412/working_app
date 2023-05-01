@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:working_app/pages/construction_registration_page.dart';
 import 'package:working_app/pages/login_page.dart';
+import 'package:working_app/pages/monthly_report_page.dart';
 import 'package:working_app/pages/request_lists_page.dart';
 import 'package:working_app/pages/top_page.dart';
 
@@ -49,7 +51,21 @@ class CustomDrawer extends HookConsumerWidget {
                 Text('月報', style: textStyle),
               ],
             ),
-            onTap: () {},
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => MonthlyReportPage()));
+            },
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                const Icon(Icons.engineering),
+                sizebox,
+                Text('工事登録', style: textStyle),
+              ],
+            ),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConstructionRegistrationPage()));
+            },
           ),
           ListTile(
             title: Row(

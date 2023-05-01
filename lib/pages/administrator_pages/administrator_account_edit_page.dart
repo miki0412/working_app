@@ -21,6 +21,7 @@ class AdministratorAccountEditPage extends HookConsumerWidget{
       'メールアドレス':email.text,
       'パスワード':password.text,
       'isAdmin': isAdmin,
+      '追加時間':DateTime.now(),
     });
   }
 

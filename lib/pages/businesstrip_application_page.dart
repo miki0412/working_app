@@ -16,6 +16,7 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
       'tripplace':tripplace.text,
       'thepurpose':thepurpose.text,
       'tripmethod':tripmethod.text,
+      'submissiontime':DateTime.now(),
     });
   }
 
@@ -31,7 +32,6 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final place = ref.watch(placeProvider);
     return Scaffold(
       appBar: const appbarmodel(
         title: '出張申請',
@@ -87,40 +87,18 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
                         border: Border.all(color: ColorModel.primary),
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: DropdownButton(
-                        isExpanded: true,
-                        underline: Container(),
-                        items: const [
-                          DropdownMenuItem(
-                            value: '交通手段を選択してください',
-                            child: Text('交通手段を選択ださい'),
-                          ),
-                          DropdownMenuItem(
-                            value: '社有車',
-                            child: Text('社有車'),
-                          ),
-                          DropdownMenuItem(
-                            value: '自家用車',
-                            child: Text('自家用車'),
-                          ),
-                          DropdownMenuItem(
-                            value: '新幹線',
-                            child: Text('新幹線'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'バス',
-                            child: Text('バス'),
-                          ),
-                          DropdownMenuItem(
-                            value: '飛行機',
-                            child: Text('飛行機'),
-                          ),
-                        ],
-                        value: place,
-                        onChanged: (value) {
-                          ref.read(placeProvider.notifier).state = value!;
-                          tripmethod.text = value!;
-                        },
+                      child: dropmenu(
+                          lists: const [
+                            '交通手段を選択してください',
+                            '社有車',
+                            '自家用車',
+                            '新幹線',
+                            '飛行機',
+                            'バス',
+                            'フェリー',
+                          ],
+                          providers: placeProvider,
+                          controller: tripmethod,
                       ),
                     ),
                     Container(

@@ -1,11 +1,8 @@
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/model.dart';
-import 'package:working_app/pages/adminstrator_custom_drawer.dart';
-import 'package:working_app/pages/businesstrip_application_page.dart';
+import 'package:working_app/pages/administrator_pages/adminstrator_custom_drawer.dart';
 
 
 class EmployeeManagementPage extends HookConsumerWidget{
@@ -33,18 +30,7 @@ class EmployeeManagementPage extends HookConsumerWidget{
     });
   }
 
-  @override
-  final departmentlists = <String>[
-    '部署を選択してください',
-    '企画部',
-    '建築部',
-    '土木部',
-    '住宅事業部',
-    '管理部'
-  ];
-
   Widget build(BuildContext context,WidgetRef ref){
-    final departmentmethod = ref.watch(departmentProvider);
     return Scaffold(
       appBar: const appbarmodel(
         title: '従業員管理',
@@ -58,8 +44,8 @@ class EmployeeManagementPage extends HookConsumerWidget{
             children: [
               const  Text('氏名'),
               textfild(
-                  hinttext: '従業員名を入力してください',
-                  controller: name,
+                hinttext: '従業員名を入力してください',
+                controller: name,
               ),
               const  Text('所属部署'),
               sizedbox,
@@ -69,22 +55,24 @@ class EmployeeManagementPage extends HookConsumerWidget{
                   borderRadius: BorderRadius.circular(5),
                 ),
                 width: double.infinity,
-                child: DropdownButton(
-                  underline: Container(),
-                  isExpanded: true,
-                  items:departmentlists.map((String departmentlists) => DropdownMenuItem(value:departmentlists,child: Text(departmentlists))).toList(),
-                  value: departmentmethod,
-                  onChanged: (value){
-                    ref.read(departmentProvider.notifier).state = value!;
-                    department.text = value!;
-                  },
+                child: dropmenu(
+                    lists: const [
+                      '部署を選択してください',
+                      '企画部',
+                      '建築部',
+                      '土木部',
+                      '住宅事業部',
+                      '管理部',
+                    ],
+                    providers: departmentProvider,
+                    controller: department,
                 ),
               ),
               sizedbox,
               const Text('入社年月日'),
               Row(
                 children: [
-                 Expanded(child:  textfild(
+                  Expanded(child:  textfild(
                       hinttext: '年',
                       controller: year
                   ),),
@@ -101,8 +89,8 @@ class EmployeeManagementPage extends HookConsumerWidget{
                   const Text('日'),
                 ],
               ),
-             sizedbox,
-             const Text('勤続年数'),
+              sizedbox,
+              const Text('勤続年数'),
               textfild(
                   hinttext: '勤続年数を入力してください',
                   controller: keepworking
@@ -137,25 +125,25 @@ class textfild extends StatelessWidget{
   const textfild({
     required this.hinttext,
     required this.controller,
- });
+  });
   final String hinttext;
   final TextEditingController controller;
 
   @override
   Widget build(BuildContext context){
     return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: ColorModel.primary),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      //width: double.infinity,
-      child:TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: hinttext,
-          border: const OutlineInputBorder(),
+        decoration: BoxDecoration(
+          border: Border.all(color: ColorModel.primary),
+          borderRadius: BorderRadius.circular(5),
         ),
-      )
+        //width: double.infinity,
+        child:TextFormField(
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: hinttext,
+            border: const OutlineInputBorder(),
+          ),
+        )
     );
   }
 }

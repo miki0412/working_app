@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:working_app/model.dart';
 import 'package:working_app/pages/account_edit_page.dart';
-import 'package:working_app/pages/administrator_login_page.dart';
+import 'package:working_app/pages/administrator_pages/administrator_login_page.dart';
 import 'package:working_app/pages/top_page.dart';
 
 class LoginPage extends HookConsumerWidget {
@@ -59,7 +60,7 @@ class LoginPage extends HookConsumerWidget {
               text_fild(hinttext: 'パスワード', controller: password),
               const SizedBox(height: 25),
               ElevatedButton(
-                onPressed: () async {
+                onPressed: () async{
                   try {
                     final User? user =
                         (await firebaseauth.signInWithEmailAndPassword(
@@ -72,8 +73,24 @@ class LoginPage extends HookConsumerWidget {
                           return TopPage();
                         }),
                       );
-                  } catch (e) {
-                    const Text('ログインできませんでした');
+                  } on FirebaseAuthException catch(e){
+                    if (e.code == 'user-not-found'){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('登録されていないメールアドレスです'),
+                            backgroundColor: ColorModel.red,
+                            duration: const Duration(seconds: 2),
+                          ),
+                      );
+                    }else if(e.code == 'wrong-password'){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('パスワードが違います'),
+                          backgroundColor: ColorModel.red,
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    }
                   }
                 },
                 child: const Text('ログイン'),
