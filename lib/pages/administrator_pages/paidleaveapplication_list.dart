@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/model.dart';
 import 'package:working_app/pages/administrator_pages/adminstrator_custom_drawer.dart';
 
 class PaidleaveapplicationList extends HookConsumerWidget{
-  const PaidleaveapplicationList({super.key});
+  PaidleaveapplicationList({super.key});
+
+  final Stream<QuerySnapshot> _paidleaveStream = FirebaseFirestore.instance.collection('有給休暇申請').snapshots();
 
   @override
   Widget build(BuildContext context,WidgetRef ref){
@@ -13,7 +16,29 @@ class PaidleaveapplicationList extends HookConsumerWidget{
       endDrawer: const AdminstratorCustomDrawer(),
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+          margin:const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+          child: StreamBuilder<QuerySnapshot>(
+            stream: _paidleaveStream,
+            builder: (context,snapshot){
+              if(snapshot.hasData) {
+                List<DocumentSnapshot> paidleavesData = snapshot.data!.docs;
+                return ListView.separated(
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context,int index) {
+                      Map<String,dynamic> paidleaveData = paidleavesData[index].data()! as Map<String,dynamic>;
+                      return Expanded(child: ListTile(
+                        title: Text('${paidleaveData['month']}月${paidleaveData['day']}日〜${paidleaveData['_month']}月${paidleaveData['_day']}日'),
+                        onTap: (){},
+                      ),);
+                    },
+                    separatorBuilder: (BuildContext context,int index) => const Divider(),
+                    itemCount: paidleavesData.length,
+                );
+              }else{
+                return Center(child: Text('未承認のデータはありません',style: textstyle.titlesize),);
+              }
+            },
+          ),
         ),
       ),
     );

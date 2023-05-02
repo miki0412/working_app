@@ -62,32 +62,32 @@ class AdminstratorTopPage extends HookConsumerWidget {
               const SizedBox(height: 15),
               row(
                   titles: '時間外申請',
-                  pages: const OffhoursapplicationList(),
+                  pages: OffhoursapplicationList(),
                   countnum: offhourscount,
               ),
               row(
                   titles: '休日出勤申請',
-                  pages: const HolidayworkapplicationsList(),
+                  pages: HolidayworkapplicationsList(),
                   countnum: holidayworkcount,
               ),
               row(
                   titles: '有給休暇申請',
-                  pages: const PaidleaveapplicationList(),
+                  pages: PaidleaveapplicationList(),
                   countnum: paidleavecount,
               ),
               row(
                   titles: '振替休日申請',
-                  pages: const SubstituteapplicationList(),
+                  pages: SubstituteapplicationList(),
                   countnum: substituteholidaycount,
               ),
               row(
                   titles: '出張申請',
-                  pages: const BusinesstripapplicationList(),
+                  pages: BusinesstripapplicationList(),
                   countnum: businesstripcount,
               ),
               row(
                 titles: '工事登録申請',
-                pages: const ConstractionregistrationList(),
+                pages: ConstractionregistrationList(),
                 countnum:constructioncount,
               ),
             ],
