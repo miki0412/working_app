@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/model.dart';
 import 'package:working_app/pages/administrator_pages/adminstrator_custom_drawer.dart';
+import 'package:working_app/pages/administrator_pages/holidaywork_application_approval.dart';
 
 class HolidayworkapplicationsList extends HookConsumerWidget{
   HolidayworkapplicationsList({super.key});
@@ -24,10 +25,13 @@ class HolidayworkapplicationsList extends HookConsumerWidget{
                 return ListView.separated(
                     shrinkWrap:true,
                     itemBuilder: (BuildContext context,int index){
-                      Map<String, dynamic> holidayworkapplicationData = holidayworkapplicationsData[index].data()! as Map<String,dynamic>;
+                      final holidayworkapplicationData = holidayworkapplicationsData[index];
+                      //Map<String, dynamic> holidayworkapplicationData = holidayworkapplicationsData[index].data()! as Map<String,dynamic>;
                       return Expanded(child: ListTile(
-                        title: Text('${holidayworkapplicationData['month']}月${holidayworkapplicationData['day']}日'),
-                        onTap: (){},
+                        title: Text('${holidayworkapplicationData.get('month')}月${holidayworkapplicationData.get('day')}日'),
+                        onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => HolidayworkApplicationApproval(holidayworkapplicationData)));
+                        },
                       ),);
                     },
                     separatorBuilder: (BuildContext context,int index) => const Divider(),

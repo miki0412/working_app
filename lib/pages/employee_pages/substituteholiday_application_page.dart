@@ -2,57 +2,49 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/model.dart';
-import 'package:working_app/pages/custom_drawer.dart';
+import 'package:working_app/pages/employee_pages/custom_drawer.dart';
 
 
-class HolidayworkApplicationPage extends HookConsumerWidget{
-  HolidayworkApplicationPage({super.key});
+class SubstituteholidayApplicationPage extends HookConsumerWidget{
+  SubstituteholidayApplicationPage({super.key});
 
   final TextEditingController month = TextEditingController();
   final TextEditingController day = TextEditingController();
-  final TextEditingController hour = TextEditingController();
-  final TextEditingController minute = TextEditingController();
-  final TextEditingController _hour =TextEditingController();
-  final TextEditingController _minute = TextEditingController();
+  final TextEditingController _month = TextEditingController();
+  final TextEditingController _day = TextEditingController();
   final TextEditingController thepurpose = TextEditingController();
-  final TextEditingController holidayworkplace = TextEditingController();
 
-  final placeProvider = StateProvider((ref) => '場所を選択してください');
-
-  void applications() async {
-    await FirebaseFirestore.instance.collection('休日出勤申請').doc().set({
+  void application() async{
+    await FirebaseFirestore.instance.collection('振替休日申請').doc().set({
       'month':month.text,
       'day':day.text,
-      'hour':hour.text,
-      'minute':minute.text,
-      '_hour':_hour.text,
-      '_minute':minute.text,
+      '_month':_month.text,
+      '_day':_day.text,
       'thepurpose':thepurpose.text,
-      'holidayworkplace':holidayworkplace.text,
       'submissiontime':DateTime.now(),
     });
   }
 
   @override
   Widget build(BuildContext context,WidgetRef ref){
-    final place = ref.watch(placeProvider);
     return Scaffold(
       appBar: const appbarmodel(
-        title: '休日出勤申請',
+        title: '振替休日申請',
       ),
       endDrawer: const CustomDrawer(),
       body: SingleChildScrollView(child:Container(
-        margin: const EdgeInsets.only(top: 30,right: 10,left: 10),
+        margin: const EdgeInsets.symmetric(vertical: 30,horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('休日出勤をする場合は前日の15時までに提出してください'),
+             const Text('振替休日を申請する場合は2日前までに提出してください'),
             const SizedBox(height: 10),
-            const Text('休日出勤をする日にち及び時間を入力してください'),
+            const Text('振替をする日にちを入力してください'),
             const SizedBox(height: 5),
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 10),
+              padding: const EdgeInsets.only(top: 15,right: 10,left:10),
               child:Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Row(
                     children: [
@@ -67,42 +59,26 @@ class HolidayworkApplicationPage extends HookConsumerWidget{
                       const Text('日'),
                     ],
                   ),
-                  const SizedBox(height: 15),
+                  const Text('の出勤に変えて'),
                   Row(
-                    children: [
-                      Expanded(child: container(controller: hour, hinttext: '時'),),
-                      const Text('時'),
-                      Expanded(child: container(controller: minute, hinttext: '分'),),
-                      const Text('分'),
-                      const Text('〜'),
-                      Expanded(child: container(controller: _hour, hinttext: '時'),),
-                      const Text('時'),
-                      Expanded(child: container(controller: _minute, hinttext: '分'),),
-                      const Text('分'),
+                    children:[
+                      Expanded(
+                        child: container(
+                            controller: _month,
+                            hinttext: '月'
+                        ),
+                      ),
+                      const Text('月'),
+                      Expanded(
+                          child: container(
+                            controller: _day,
+                            hinttext: '日',
+                          )
+                      ),
+                      const Text('日'),
                     ],
                   ),
-                  Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.symmetric(vertical: 15),
-                    padding: const EdgeInsets.symmetric(horizontal: 7),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: ColorModel.primary),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child:DropdownButton(
-                      isExpanded:true,
-                      underline: Container(),
-                      items: const [
-                        DropdownMenuItem(value:'場所を選択してください',child: Text('場所を選択ださい'),),
-                        DropdownMenuItem(value:'会社',child: Text('会社'),),
-                        DropdownMenuItem(value:'現場',child: Text('現場'),),
-                      ],
-                      value: place,
-                      onChanged: (value){
-                        ref.read(placeProvider.notifier).state = value!;
-                        holidayworkplace.text = value!;
-                        },
-                    ),),
+                  const Text('の振替休日を申請します。'),
                   Container(
                     margin: const EdgeInsets.only(top: 15,bottom:15),
                     decoration: BoxDecoration(
@@ -123,7 +99,7 @@ class HolidayworkApplicationPage extends HookConsumerWidget{
                       widthsize: double.infinity,
                       heightsize: 40,
                       child: ElevatedButton(
-                        onPressed: (){applications();},
+                        onPressed: (){application();},
                         child: const Text('申請する',style: TextStyle(fontSize: 15),),
                       )
                   ),

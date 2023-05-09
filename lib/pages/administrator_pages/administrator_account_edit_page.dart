@@ -74,7 +74,7 @@ class AdministratorAccountEditPage extends HookConsumerWidget{
               //isVisible: true,
             ),
             sized_box,
-            Text(password.text != _password.text?'':'パスワードが一致しません',style: const TextStyle(color: Colors.red),),
+            //Text(password.text != _password.text?'':'パスワードが一致しません',style: const TextStyle(color: Colors.red),),
             textfild(
               hinttext: 'パスワード（確認用）',
               controller: _password,

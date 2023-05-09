@@ -2,25 +2,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/model.dart';
-import 'package:working_app/pages/custom_drawer.dart';
+import 'package:working_app/pages/employee_pages/custom_drawer.dart';
 
 
-class SubstituteholidayApplicationPage extends HookConsumerWidget{
-  SubstituteholidayApplicationPage({super.key});
+class PaidleaveApplicationPage extends HookConsumerWidget{
+  PaidleaveApplicationPage({super.key});
 
   final TextEditingController month = TextEditingController();
   final TextEditingController day = TextEditingController();
   final TextEditingController _month = TextEditingController();
   final TextEditingController _day = TextEditingController();
   final TextEditingController thepurpose = TextEditingController();
+  final TextEditingController offdays = TextEditingController();
+  final daysProvider = StateProvider((ref) => '有給取得日数を選択してください');
 
   void application() async{
-    await FirebaseFirestore.instance.collection('振替休日申請').doc().set({
+    await FirebaseFirestore.instance.collection('有給休暇申請').doc().set({
       'month':month.text,
       'day':day.text,
-      '_month':_month.text,
+      '_month':month.text,
       '_day':_day.text,
       'thepurpose':thepurpose.text,
+      'offdays':offdays.text,
       'submissiontime':DateTime.now(),
     });
   }
@@ -29,20 +32,20 @@ class SubstituteholidayApplicationPage extends HookConsumerWidget{
   Widget build(BuildContext context,WidgetRef ref){
     return Scaffold(
       appBar: const appbarmodel(
-        title: '振替休日申請',
+        title: '有給休暇申請',
       ),
       endDrawer: const CustomDrawer(),
       body: SingleChildScrollView(child:Container(
-        margin: const EdgeInsets.symmetric(vertical: 30,horizontal: 10),
+        margin: const EdgeInsets.only(top: 30,right: 10,left: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             const Text('振替休日を申請する場合は2日前までに提出してください'),
+            const Text('有給休暇申請取得2日前までに申請するようにしましょう'),
             const SizedBox(height: 10),
-            const Text('振替をする日にちを入力してください'),
+            const Text('有給休暇を取得する日にちを入力してください'),
             const SizedBox(height: 5),
             Container(
-              padding: const EdgeInsets.only(top: 15,right: 10,left:10),
+              padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 10),
               child:Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -57,28 +60,43 @@ class SubstituteholidayApplicationPage extends HookConsumerWidget{
                           )
                       ),
                       const Text('日'),
-                    ],
-                  ),
-                  const Text('の出勤に変えて'),
-                  Row(
-                    children:[
-                      Expanded(
-                        child: container(
-                            controller: _month,
-                            hinttext: '月'
-                        ),
-                      ),
+                  const Text('〜',textAlign: TextAlign.end,),
+                      Expanded(child: container(controller: _month, hinttext: '月'),),
                       const Text('月'),
                       Expanded(
                           child: container(
-                            controller: _day,
-                            hinttext: '日',
+                              controller: _day,
+                              hinttext: '日'
                           )
                       ),
                       const Text('日'),
                     ],
                   ),
-                  const Text('の振替休日を申請します。'),
+                  const SizedBox(height: 15),
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(vertical: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 7),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: ColorModel.primary),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child:dropmenu(
+                        lists: const [
+                          '有給取得日数を選択してください',
+                          '0.5日間',
+                          '1日間',
+                          '1.5日間',
+                          '2日間',
+                          '2.5日間',
+                          '3日間',
+                          '3.5日間',
+                          '4日間',
+                        ],
+                        providers: daysProvider,
+                        controller: offdays,
+                    ),
+                  ),
                   Container(
                     margin: const EdgeInsets.only(top: 15,bottom:15),
                     decoration: BoxDecoration(

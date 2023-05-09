@@ -26,12 +26,13 @@ class OffhoursapplicationList extends HookConsumerWidget{
                 return ListView.separated(
                     shrinkWrap: true,
                     itemBuilder: (BuildContext contex,int index){
-                      Map<String,dynamic> offhourData = offhoursData[index].data()! as Map<String,dynamic>;
+                      final offhourData = offhoursData[index];
+                      //Map<String,dynamic> offhourData = offhoursData[index].data()! as Map<String,dynamic>;
                       return Expanded(child: ListTile(
-                        title: Text('${offhourData['month']}月${offhourData['day']}日'),
-                        subtitle: Text('${offhourData['hour']}:${offhourData['minute']}〜${offhourData['_hour']}:${offhourData['_minute']}'),
+                        title: Text('${offhourData.get('month')}月${offhourData.get('day')}日'),
+                        subtitle: Text('${offhourData.get('hour')}:${offhourData.get('minute')}〜${offhourData.get('_hour')}:${offhourData.get('_minute')}'),
                         onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const OffhoursApplicationApproval()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => OffhoursApplicationApproval(offhourData)));
                         },
                       ),);
                     },

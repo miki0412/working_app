@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/pages/administrator_pages/adminstrator_top_page.dart';
-import 'package:working_app/pages/login_page.dart';
+import 'package:working_app/pages/employee_pages/login_page.dart';
 import 'package:working_app/pages/administrator_pages/administrator_account_edit_page.dart';
 import 'package:working_app/model.dart';
 

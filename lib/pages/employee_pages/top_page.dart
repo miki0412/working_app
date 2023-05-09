@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:working_app/model.dart';
-import 'package:working_app/pages/custom_drawer.dart';
-import 'package:working_app/pages/dialyreport_page.dart';
+import 'package:working_app/pages/employee_pages/custom_drawer.dart';
+import 'package:working_app/pages/employee_pages/dialyreport_page.dart';
 
 class TopPage extends HookConsumerWidget {
   TopPage({super.key});

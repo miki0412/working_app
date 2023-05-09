@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/model.dart';
-import 'package:working_app/pages/custom_drawer.dart';
+import 'package:working_app/pages/employee_pages/custom_drawer.dart';
 import 'package:intl/intl.dart';
 
 class MonthlyReportPage extends HookConsumerWidget{

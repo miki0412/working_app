@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/model.dart';
-import 'package:working_app/pages/businesstrip_application_page.dart';
-import 'package:working_app/pages/custom_drawer.dart';
-import 'package:working_app/pages/offhours_application_page.dart';
-import 'package:working_app/pages/paidleave_application_page.dart';
-import 'package:working_app/pages/holidaywork_application_page.dart';
-import 'package:working_app/pages/substituteholiday_application_page.dart';
+import 'package:working_app/pages/employee_pages/businesstrip_application_page.dart';
+import 'package:working_app/pages/employee_pages/custom_drawer.dart';
+import 'package:working_app/pages/employee_pages/offhours_application_page.dart';
+import 'package:working_app/pages/employee_pages/paidleave_application_page.dart';
+import 'package:working_app/pages/employee_pages/holidaywork_application_page.dart';
+import 'package:working_app/pages/employee_pages/substituteholiday_application_page.dart';
 
 class RequestListsPage extends HookConsumerWidget{
   const RequestListsPage ({super.key});

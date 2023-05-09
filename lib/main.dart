@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/firebase_options.dart';
-import 'package:working_app/pages/login_page.dart';
+import 'package:working_app/pages/employee_pages/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:working_app/pages/top_page.dart';
+import 'package:working_app/pages/employee_pages/top_page.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
