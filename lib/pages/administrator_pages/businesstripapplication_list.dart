@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:working_app/model.dart';
+import 'package:working_app/style.dart';
 import 'package:working_app/pages/administrator_pages/adminstrator_custom_drawer.dart';
 
 class BusinesstripapplicationList extends HookConsumerWidget{
@@ -12,8 +12,11 @@ class BusinesstripapplicationList extends HookConsumerWidget{
   @override
   Widget build(BuildContext context,WidgetRef ref){
     return Scaffold(
-      appBar: const appbarmodel(title:'出張申請一覧'),
-      endDrawer: const AdminstratorCustomDrawer(),
+      appBar: AppBar(
+        title: Text('出張申請書一覧',style: Textstyle.titlesize),
+        backgroundColor: ColorModel.green,
+      ),
+      endDrawer: AdminstratorCustomDrawer(),
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
@@ -36,7 +39,7 @@ class BusinesstripapplicationList extends HookConsumerWidget{
                     itemCount: businesstripsData.length,
                 );
               }else{
-                return Center(child: Text('未承認の申請はありません',style: textstyle.titlesize),);
+                return Center(child: Text('未承認の申請はありません',style: Textstyle.titlesize),);
               }
             },
           ),

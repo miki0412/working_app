@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:working_app/model.dart';
+import 'package:working_app/style.dart';
 import 'package:working_app/pages/employee_pages/custom_drawer.dart';
 
 class DialyreportPage extends HookConsumerWidget {
@@ -35,8 +35,10 @@ class DialyreportPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: const appbarmodel(title: '日報'),
-      endDrawer: const CustomDrawer(),
+      appBar: AppBar(
+        title: Text('日報',style: Textstyle.titlesize),
+        backgroundColor: ColorModel.green,
+      ),
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -46,18 +48,18 @@ class DialyreportPage extends HookConsumerWidget {
               Row(
                 children: [
                   Expanded(
-                    child: textfild(
+                    child: Textfild(
                       text: '年',
                       controller: year,
                     ),
                   ),
                   const Text('年'),
                   Expanded(
-                    child: textfild(text: '月', controller: month),
+                    child: Textfild(text: '月', controller: month),
                   ),
                   const Text('月'),
                   Expanded(
-                    child: textfild(text: '日', controller: day),
+                    child: Textfild(text: '日', controller: day),
                   ),
                   const Text('日'),
                 ],
@@ -74,7 +76,7 @@ class DialyreportPage extends HookConsumerWidget {
                           border: Border.all(color: ColorModel.primary),
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: dropmenu(
+                        child: Dropmenu(
                           lists: const [
                             '出勤区分を選択して下さい',
                             '出勤',
@@ -86,25 +88,29 @@ class DialyreportPage extends HookConsumerWidget {
                   ),
                 ],
               ),
-              dialy_cell(
+              Dialy_cell(
+                keybordtype: TextInputType.datetime,
                 time: time,
                 detail: detail,
                 site: site,
                 businessconent: businessconent,
               ),
-              dialy_cell(
+              Dialy_cell(
+                keybordtype: TextInputType.datetime,
                 time: time,
                 detail: detail,
                 site: site,
                 businessconent: businessconent,
               ),
-              dialy_cell(
+              Dialy_cell(
+                keybordtype: TextInputType.datetime,
                 time: time,
                 detail: detail,
                 site: site,
                 businessconent: businessconent,
               ),
-              dialy_cell(
+              Dialy_cell(
+                keybordtype: TextInputType.datetime,
                 time: time,
                 detail: detail,
                 site: site,
@@ -116,6 +122,12 @@ class DialyreportPage extends HookConsumerWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     reportadd();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('日報を記録しました'),
+                        backgroundColor: Colors.blue,
+                      ),
+                    );
                   },
                   child: const Text('記録'),
                 ),
@@ -128,8 +140,8 @@ class DialyreportPage extends HookConsumerWidget {
   }
 }
 
-class textfild extends StatelessWidget {
-  const textfild({
+class Textfild extends StatelessWidget {
+  const Textfild({
     required this.text,
     required this.controller,
   });
@@ -149,15 +161,16 @@ class textfild extends StatelessWidget {
   }
 }
 
-class dialy_cell extends HookConsumerWidget {
-  dialy_cell({
+class Dialy_cell extends HookConsumerWidget {
+  Dialy_cell({
     super.key,
+    required this.keybordtype,
     required this.time,
     required this.detail,
     required this.site,
     required this.businessconent,
   });
-
+  final TextInputType keybordtype;
   final TextEditingController time;
   final TextEditingController detail;
   final TextEditingController site;
@@ -176,10 +189,10 @@ class dialy_cell extends HookConsumerWidget {
               Container(
                 width: 150,
                 margin: const EdgeInsets.only(right: 5),
-                child: textfild(text: ': ~ :', controller: detail),
+                child: Textfild(text: ': ~ :', controller: detail),
               ),
               Expanded(
-                child: dropmenu(
+                child: Dropmenu(
                   lists: const [
                     '現場名を選択して下さい',
                     'A現場',
@@ -194,7 +207,7 @@ class dialy_cell extends HookConsumerWidget {
             ],
           ),
           const SizedBox(height: 10),
-          textfild(
+          Textfild(
             text: '業務内容',
             controller: businessconent,
           ),

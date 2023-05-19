@@ -5,9 +5,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/pages/administrator_pages/adminstrator_top_page.dart';
 import 'package:working_app/pages/employee_pages/login_page.dart';
 import 'package:working_app/pages/administrator_pages/administrator_account_edit_page.dart';
-import 'package:working_app/model.dart';
+import 'package:working_app/style.dart';
 
 class AdministratorLoginPage extends HookConsumerWidget {
+  AdministratorLoginPage({super.key});
   final firebaseAuthProvider =
   Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
   final usernameProvider =
@@ -27,7 +28,6 @@ class AdministratorLoginPage extends HookConsumerWidget {
     });
   }
 
-  @override
   void initState(){
     checkSignin();
   }
@@ -40,25 +40,26 @@ class AdministratorLoginPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'ログイン(管理者ページ）',
-          style: TextStyle(color: Color(0xFFFFFFFF)),
-        ),
-        backgroundColor: const Color(0xFF3CB371),
+        title: Text('ログイン（管理者ページ）',style: Textstyle.titlesize),
+        backgroundColor: ColorModel.green,
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
-        child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              text_fild(
+              Textfild(
+                keybordtype:TextInputType.emailAddress,
                 hinttext: 'ユーザー名（メールアドレス）',
                 controller: username,
                 pass: false,
               ),
               const SizedBox(height: 20),
-              text_fild(hinttext: 'パスワード', controller: password),
+              Textfild(
+                  keybordtype: TextInputType.visiblePassword,
+                  hinttext: 'パスワード',
+                  controller: password
+              ),
               const SizedBox(height: 25),
               ElevatedButton(
                 onPressed: () async {
@@ -104,14 +105,13 @@ class AdministratorLoginPage extends HookConsumerWidget {
                 child: const Text('アカウントをお持ちでない方はこちらから'),
               ),
               TextButton(
-                onPressed: () => Navigator.of(context).push(
+                onPressed: () => Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => LoginPage()),
                 ),
                 child: const Text('従業員の方はこちらから'),
               )
             ],
           ),
-        ),
       ),
     );
   }
@@ -119,14 +119,16 @@ class AdministratorLoginPage extends HookConsumerWidget {
 
 final isObscureProvider = StateProvider((ref) => true);
 
-class text_fild extends HookConsumerWidget {
-  const text_fild({
+class Textfild extends HookConsumerWidget {
+  const Textfild({
   super.key,
+  required this.keybordtype,
   required this.hinttext,
   required this.controller,
   this.pass = true,
   });
 
+  final TextInputType keybordtype;
   final String hinttext;
   final TextEditingController controller;
   final bool pass;
@@ -140,6 +142,7 @@ class text_fild extends HookConsumerWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: TextFormField(
+        keyboardType: keybordtype,
         obscureText: pass ? isObscure : false,
         decoration: InputDecoration(
           suffixIcon: pass

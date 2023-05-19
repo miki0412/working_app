@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:working_app/model.dart';
+import 'package:working_app/style.dart';
 import 'package:working_app/pages/administrator_pages/adminstrator_custom_drawer.dart';
 
 
@@ -32,10 +32,11 @@ class EmployeeManagementPage extends HookConsumerWidget{
 
   Widget build(BuildContext context,WidgetRef ref){
     return Scaffold(
-      appBar: const appbarmodel(
-        title: '従業員管理',
+      appBar: AppBar(
+        title: Text('従業員管理',style: Textstyle.titlesize),
+        backgroundColor: ColorModel.green,
       ),
-      endDrawer: const AdminstratorCustomDrawer(),
+      endDrawer: AdminstratorCustomDrawer(),
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(top: 10,right: 10,left: 10),
@@ -43,7 +44,8 @@ class EmployeeManagementPage extends HookConsumerWidget{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const  Text('氏名'),
-              textfild(
+              Textfild(
+                keybordtype: TextInputType.text,
                 hinttext: '従業員名を入力してください',
                 controller: name,
               ),
@@ -55,7 +57,7 @@ class EmployeeManagementPage extends HookConsumerWidget{
                   borderRadius: BorderRadius.circular(5),
                 ),
                 width: double.infinity,
-                child: dropmenu(
+                child: Dropmenu(
                     lists: const [
                       '部署を選択してください',
                       '企画部',
@@ -72,17 +74,20 @@ class EmployeeManagementPage extends HookConsumerWidget{
               const Text('入社年月日'),
               Row(
                 children: [
-                  Expanded(child:  textfild(
+                  Expanded(child:  Textfild(
+                      keybordtype: TextInputType.datetime,
                       hinttext: '年',
                       controller: year
                   ),),
                   const Text('年'),
-                  Expanded(child: textfild(
+                  Expanded(child: Textfild(
+                      keybordtype: TextInputType.datetime,
                       hinttext: '月',
                       controller: month
                   ),),
                   const Text('月'),
-                  Expanded(child: textfild(
+                  Expanded(child: Textfild(
+                      keybordtype: TextInputType.datetime,
                       hinttext: '日',
                       controller: day
                   ),),
@@ -91,7 +96,8 @@ class EmployeeManagementPage extends HookConsumerWidget{
               ),
               sizedbox,
               const Text('勤続年数'),
-              textfild(
+              Textfild(
+                  keybordtype: TextInputType.number,
                   hinttext: '勤続年数を入力してください',
                   controller: keepworking
               ),
@@ -99,7 +105,8 @@ class EmployeeManagementPage extends HookConsumerWidget{
               const Text('有給日数'),
               Row(
                 children: [
-                  Expanded(child: textfild(
+                  Expanded(child: Textfild(
+                      keybordtype: TextInputType.number,
                       hinttext: '有給日数を入力してください',
                       controller: offday
                   ),),
@@ -110,7 +117,14 @@ class EmployeeManagementPage extends HookConsumerWidget{
               SizedBox(
                 width: double.infinity,
                 child:ElevatedButton(
-                  onPressed: (){employee();},
+                  onPressed: (){
+                    employee();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('従業員情報を登録しました'),
+                        backgroundColor: Colors.blue,
+                      )
+                    );},
                   child: const Text('登録する'),
                 ),),
             ],
@@ -121,11 +135,13 @@ class EmployeeManagementPage extends HookConsumerWidget{
   }
 }
 
-class textfild extends StatelessWidget{
-  const textfild({
+class Textfild extends StatelessWidget{
+  const Textfild({
+    required this.keybordtype,
     required this.hinttext,
     required this.controller,
   });
+  final TextInputType keybordtype;
   final String hinttext;
   final TextEditingController controller;
 
@@ -138,6 +154,7 @@ class textfild extends StatelessWidget{
         ),
         //width: double.infinity,
         child:TextFormField(
+          keyboardType: keybordtype,
           controller: controller,
           decoration: InputDecoration(
             hintText: hinttext,

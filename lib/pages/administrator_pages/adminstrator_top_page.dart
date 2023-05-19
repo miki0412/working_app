@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:working_app/model.dart';
+import 'package:working_app/style.dart';
 import 'package:working_app/pages/administrator_pages/adminstrator_custom_drawer.dart';
 import 'package:working_app/pages/administrator_pages/businesstripapplication_list.dart';
 import 'package:working_app/pages/administrator_pages/constructionregistration_list.dart';
@@ -48,10 +48,11 @@ class AdminstratorTopPage extends HookConsumerWidget {
     final AsyncValue<int> constructioncount = ref.watch(constructioncountProvider);
     //StreamProviderから取得されたデータは非同期データの１種でありそのまま取得したデータをTextとして表出するとAsyncData<int>(value: 3)と表出されるため.valueなどでデータのみを取り出す必要がある
     return Scaffold(
-      appBar: const appbarmodel(
-        title: 'トップページ（管理者）',
+      appBar: AppBar(
+        title: Text('トップページ',style: Textstyle.titlesize),
+        backgroundColor: ColorModel.green,
       ),
-      endDrawer: const AdminstratorCustomDrawer(),
+      endDrawer: AdminstratorCustomDrawer(),
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(top: 10, right: 10, left: 10),
@@ -60,32 +61,32 @@ class AdminstratorTopPage extends HookConsumerWidget {
             children: [
               const Text('各種申請が届いています。\n通知がある場合は必ず確認し、承認を行なってください。'),
               const SizedBox(height: 15),
-              row(
+              RowModel(
                   titles: '時間外申請',
                   pages: OffhoursapplicationList(),
                   countnum: offhourscount,
               ),
-              row(
+              RowModel(
                   titles: '休日出勤申請',
                   pages: HolidayworkapplicationsList(),
                   countnum: holidayworkcount,
               ),
-              row(
+              RowModel(
                   titles: '有給休暇申請',
                   pages: PaidleaveapplicationList(),
                   countnum: paidleavecount,
               ),
-              row(
+              RowModel(
                   titles: '振替休日申請',
                   pages: SubstituteapplicationList(),
                   countnum: substituteholidaycount,
               ),
-              row(
+              RowModel(
                   titles: '出張申請',
                   pages: BusinesstripapplicationList(),
                   countnum: businesstripcount,
               ),
-              row(
+              RowModel(
                 titles: '工事登録申請',
                 pages: ConstractionregistrationList(),
                 countnum:constructioncount,
@@ -98,8 +99,8 @@ class AdminstratorTopPage extends HookConsumerWidget {
   }
 }
 
-class row extends StatelessWidget {
-  const row({
+class RowModel extends StatelessWidget {
+  const RowModel({
     super.key,
     required this.titles,
     required this.pages,
@@ -113,12 +114,12 @@ class row extends StatelessWidget {
   Widget build(BuildContext context){
     return Row(
       children: [
-        Expanded(child: Text(titles,style: textstyle.titlesize),),
+        Expanded(child: Text(titles,style: Textstyle.titlesize),),
         Expanded(child: TextButton(
             onPressed: (){
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => pages));
             },
-            child: Text('${countnum.value}  件',style: textstyle.titlesize),
+            child: Text('${countnum.value}  件',style: Textstyle.titlesize),
         ),),
       ],
     );

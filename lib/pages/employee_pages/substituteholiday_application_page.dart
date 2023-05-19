@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:working_app/model.dart';
+import 'package:working_app/style.dart';
 import 'package:working_app/pages/employee_pages/custom_drawer.dart';
 
 
@@ -28,10 +28,10 @@ class SubstituteholidayApplicationPage extends HookConsumerWidget{
   @override
   Widget build(BuildContext context,WidgetRef ref){
     return Scaffold(
-      appBar: const appbarmodel(
-        title: '振替休日申請',
+      appBar: AppBar(
+        title: Text('振替休日申請',style: Textstyle.titlesize),
+        backgroundColor: ColorModel.green,
       ),
-      endDrawer: const CustomDrawer(),
       body: SingleChildScrollView(child:Container(
         margin: const EdgeInsets.symmetric(vertical: 30,horizontal: 10),
         child: Column(
@@ -48,10 +48,11 @@ class SubstituteholidayApplicationPage extends HookConsumerWidget{
                 children: [
                   Row(
                     children: [
-                      Expanded(child: container(controller: month, hinttext: '月'),),
+                      Expanded(child: ContainerBox(keybordtype:TextInputType.datetime,controller: month, hinttext: '月'),),
                       const Text('月'),
                       Expanded(
-                          child: container(
+                          child: ContainerBox(
+                              keybordtype: TextInputType.datetime,
                               controller: day,
                               hinttext: '日'
                           )
@@ -63,14 +64,16 @@ class SubstituteholidayApplicationPage extends HookConsumerWidget{
                   Row(
                     children:[
                       Expanded(
-                        child: container(
+                        child: ContainerBox(
+                            keybordtype: TextInputType.datetime,
                             controller: _month,
                             hinttext: '月'
                         ),
                       ),
                       const Text('月'),
                       Expanded(
-                          child: container(
+                          child: ContainerBox(
+                            keybordtype: TextInputType.datetime,
                             controller: _day,
                             hinttext: '日',
                           )
@@ -95,11 +98,18 @@ class SubstituteholidayApplicationPage extends HookConsumerWidget{
 
                     ),),
                   const SizedBox(height: 30),
-                  sizedbox(
-                      widthsize: double.infinity,
-                      heightsize: 40,
+                  SizedBox(
+                      width: double.infinity,
+                      height: 40,
                       child: ElevatedButton(
-                        onPressed: (){application();},
+                        onPressed: (){
+                          application();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('申請が完了しました'),
+                              backgroundColor: Colors.blue,
+                            ),
+                          );},
                         child: const Text('申請する',style: TextStyle(fontSize: 15),),
                       )
                   ),
@@ -112,11 +122,13 @@ class SubstituteholidayApplicationPage extends HookConsumerWidget{
   }
 }
 
-class container extends StatelessWidget{
-  const container({
+class ContainerBox extends StatelessWidget{
+  const ContainerBox({
+    required this.keybordtype,
     required this.controller,
     required this.hinttext,
   });
+  final TextInputType keybordtype;
   final TextEditingController controller;
   final String hinttext;
 

@@ -1,44 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class appbarmodel extends StatelessWidget implements PreferredSizeWidget{
-  const appbarmodel({
-    required this.title
-  });
-  final String title;
-
-  @override
-  Widget build(BuildContext context){
-    return AppBar(
-      title: Text(title,style: TextStyle(color:ColorModel.white,),),
-      backgroundColor:ColorModel.green,
-    );
-  }
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-class sizedbox extends StatelessWidget{
-  const sizedbox ({
-    required this.widthsize,
-    required this.heightsize,
-    required this.child,
-  });
-  final double widthsize;
-  final double heightsize;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context){
-    return SizedBox(
-      width: widthsize,
-      height: heightsize,
-      child: child,
-    );
-  }
-}
-
-
 class ColorModel{
   static Color primary = const Color(0xFF000000);
   static Color white = const Color(0xFFFFFFFF);
@@ -48,12 +10,12 @@ class ColorModel{
   static Color pink = const Color(0xFFFFC0CB);
 }
 
-class textstyle {
+class Textstyle {
   static TextStyle titlesize = const TextStyle(fontSize: 20);
 }
 
-class dropmenu extends HookConsumerWidget{
-  const dropmenu({
+class Dropmenu extends HookConsumerWidget{
+  const Dropmenu({
     super.key,
     required this.lists,
     required this.providers,

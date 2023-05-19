@@ -11,7 +11,9 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(
+   const ProviderScope(child:MyApp())
+  );
 }
 bool signCheck = false;
 
@@ -30,19 +32,19 @@ void initState(){
   checkSignin();
 }
 
-class MyApp extends HookConsumerWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: '勤怠アプリ',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ProviderScope(child:signCheck == false?LoginPage():TopPage()),
+      home: signCheck == false?LoginPage():TopPage(),
     );
   }
 }

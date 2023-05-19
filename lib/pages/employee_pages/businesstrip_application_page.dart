@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:working_app/model.dart';
-import 'package:working_app/pages/employee_pages/custom_drawer.dart';
+import 'package:working_app/style.dart';
 
 class BusinesstripApplicationPage extends HookConsumerWidget {
   BusinesstripApplicationPage({super.key});
@@ -33,10 +32,10 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: const appbarmodel(
-        title: '出張申請',
+      appBar: AppBar(
+        title: Text('出張申請',style: Textstyle.titlesize,),
+        backgroundColor: ColorModel.green,
       ),
-      endDrawer: const CustomDrawer(),
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
@@ -57,24 +56,25 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: container(controller: month, hinttext: '月'),
+                          child: ContainerBox(keybordtype:TextInputType.datetime,controller: month, hinttext: '月'),
                         ),
                         const Text('月'),
                         Expanded(
-                            child: container(controller: day, hinttext: '日')),
+                            child: ContainerBox(keybordtype:TextInputType.datetime,controller: day, hinttext: '日')),
                         const Text('日'),
                         const Text('〜'),
                         Expanded(
-                          child: container(controller: _month, hinttext: '月'),
+                          child: ContainerBox(keybordtype:TextInputType.datetime,controller: _month, hinttext: '月'),
                         ),
                         const Text('月'),
                         Expanded(
-                            child: container(controller: _day, hinttext: '日')),
+                            child: ContainerBox(keybordtype:TextInputType.datetime,controller: _day, hinttext: '日')),
                         const Text('日'),
                       ],
                     ),
                     const SizedBox(height: 10),
-                    container(
+                    ContainerBox(
+                      keybordtype: TextInputType.text,
                       controller: tripplace,
                       hinttext: '出張先を入力してください',
                     ),
@@ -87,7 +87,7 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
                         border: Border.all(color: ColorModel.primary),
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: dropmenu(
+                      child: Dropmenu(
                           lists: const [
                             '交通手段を選択してください',
                             '社有車',
@@ -117,11 +117,19 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: 30),
-                    sizedbox(
-                        widthsize: double.infinity,
-                        heightsize: 40,
+                    SizedBox(
+                        width: double.infinity,
+                        height: 40,
                         child: ElevatedButton(
-                          onPressed: () {applications();},
+                          onPressed: () {
+                            applications();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('申請が完了しました'),
+                                backgroundColor: Colors.blue,
+                              ),
+                            );
+                            },
                           child: const Text(
                             '申請する',
                             style: TextStyle(fontSize: 15),
@@ -138,12 +146,14 @@ class BusinesstripApplicationPage extends HookConsumerWidget {
   }
 }
 
-class container extends StatelessWidget {
-  const container({
+class ContainerBox extends StatelessWidget {
+  const ContainerBox({
+    required this.keybordtype,
     required this.controller,
     required this.hinttext,
   });
 
+  final TextInputType keybordtype;
   final TextEditingController controller;
   final String hinttext;
 

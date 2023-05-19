@@ -2,22 +2,33 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/pages/employee_pages/construction_registration_page.dart';
+import 'package:working_app/pages/employee_pages/employee_man_hour_management_page.dart';
+import 'package:working_app/pages/employee_pages/imformation_page.dart';
 import 'package:working_app/pages/employee_pages/login_page.dart';
 import 'package:working_app/pages/employee_pages/monthly_report_page.dart';
 import 'package:working_app/pages/employee_pages/request_lists_page.dart';
 import 'package:working_app/pages/employee_pages/top_page.dart';
+import 'package:working_app/pages/navigation_provider.dart';
 
 class CustomDrawer extends HookConsumerWidget {
-  const CustomDrawer({super.key});
+  CustomDrawer({super.key});
+
+  final navigtionProvider = ChangeNotifierProvider((ref) => NavigationProvider());
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final navigationState = ref.watch(navigtionProvider);
+    switch (navigationState.currentPage) {
+      case '/top' : return TopPage();
+      case '/request' : return RequestListsPage();
+      case '/monthly' : return MonthlyReportPage();
+      case '/construction' : return ConstructionRegistrationPage();
+      case '/manhourmanagement' : return EmployeeManHourManagementPage();
+      case '/info' : return InformationPage();
+    }
     return Drawer(
       child: ListView(
         children: <Widget>[
-          const Padding(
-            padding: EdgeInsets.only(top: 20),
-          ),
           ListTile(
             title: Row(
               children: [
@@ -26,8 +37,10 @@ class CustomDrawer extends HookConsumerWidget {
                 Text('トップページへ', style: textStyle),
               ],
             ),
-            onTap: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => TopPage())),
+            onTap: (){
+              navigationState.NavigatePage('/top');
+            },
+            selected: navigationState.currentPage == '/top',
           ),
           ListTile(
             title: Row(
@@ -37,11 +50,10 @@ class CustomDrawer extends HookConsumerWidget {
                 Text('申請一覧', style: textStyle),
               ],
             ),
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const RequestListsPage(),
-              ),
-            ),
+            onTap: (){
+              navigationState.NavigatePage('/request');
+            },
+            selected: navigationState.currentPage == '/request',
           ),
           ListTile(
             title: Row(
@@ -52,20 +64,22 @@ class CustomDrawer extends HookConsumerWidget {
               ],
             ),
             onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => MonthlyReportPage()));
+              navigationState.NavigatePage('/monthly');
             },
+            selected: navigationState.currentPage == '/monthly',
           ),
           ListTile(
             title: Row(
               children: [
-                const Icon(Icons.engineering),
+                const Icon(Icons.app_registration),
                 sizebox,
                 Text('工事登録', style: textStyle),
               ],
             ),
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConstructionRegistrationPage()));
+            onTap: (){
+              navigationState.NavigatePage('/construction');
             },
+            selected: navigationState.currentPage == '/construction',
           ),
           ListTile(
             title: Row(
@@ -75,7 +89,10 @@ class CustomDrawer extends HookConsumerWidget {
                 Text('工数管理', style: textStyle),
               ],
             ),
-            onTap: () {},
+            onTap: (){
+              navigationState.NavigatePage('/manhourmanagement');
+            },
+            selected: navigationState.currentPage == 'manhourmanagement',
           ),
           ListTile(
             title: Row(
@@ -85,22 +102,24 @@ class CustomDrawer extends HookConsumerWidget {
                 Text('お知らせ', style: textStyle),
               ],
             ),
-            onTap: () {},
+            onTap: (){
+              navigationState.NavigatePage('/info');
+            },
+            selected: navigationState.currentPage == 'info',
           ),
           ListTile(
             title: Row(
               children: [
-                const Icon(Icons.logout),
+                const Icon(Icons.app_registration),
                 sizebox,
                 Text('ログアウト', style: textStyle),
               ],
             ),
-            onTap: () {
+            onTap: (){
               FirebaseAuth.instance.signOut();
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => LoginPage()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
             },
-          )
+          ),
         ],
       ),
     );

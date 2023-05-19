@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:working_app/model.dart';
+import 'package:working_app/style.dart';
 import 'package:working_app/pages/employee_pages/custom_drawer.dart';
 import 'package:working_app/pages/employee_pages/dialyreport_page.dart';
 
@@ -14,9 +14,12 @@ class TopPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: const appbarmodel(title: 'トップページ'),
-      endDrawer: const CustomDrawer(),
-      body: Container(
+      appBar: AppBar(
+        title: Text('トップページ',style: Textstyle.titlesize),
+        backgroundColor: ColorModel.green,
+      ),
+      endDrawer: CustomDrawer(),
+      body: SingleChildScrollView(child:Container(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +69,7 @@ class TopPage extends HookConsumerWidget {
             ),
           ],
         ),
-      ),
+      ),),
     );
   }
 }

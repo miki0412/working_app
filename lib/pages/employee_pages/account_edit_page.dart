@@ -1,19 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:working_app/model.dart';
+import 'package:working_app/style.dart';
 
-class AccountEditPage extends HookConsumerWidget{
+class AccountEditPage extends HookConsumerWidget {
   AccountEditPage({super.key});
 
-  void editUser() async{
-    UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email.text,
-        password: password.text
-    );
+  editUser() async {
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: email.text, password: password.text);
     User user = userCredential.user!;
     FirebaseFirestore.instance.collection('users').doc(user.uid).set({
       '会社名':companyname.text,
@@ -34,77 +31,119 @@ class AccountEditPage extends HookConsumerWidget{
   final TextEditingController _password = TextEditingController();
 
   @override
-  Widget build(BuildContext context,WidgetRef ref){
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: const appbarmodel(title: 'アカウント追加'),
-      body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-        child: Column(
-          crossAxisAlignment:CrossAxisAlignment.center,
-          children: [
-            textfild(
-              hinttext: '会社名',
-              controller: companyname,
-            ),
-            sized_box,
-            textfild(
-              hinttext: '住所',
-              controller: adress,
-            ),
-            sized_box,
-            textfild(
-                hinttext: '電話番号',
-                controller: phonenum
-            ),
-            sized_box,
-            textfild(
-                hinttext: 'メールアドレス',
-                controller: email
-            ),
-            sized_box,
-            textfild(
-              hinttext: '代表者名',
-              controller: representative,
-            ),
-            sized_box,
-
-            textfild(
-              hinttext: 'パスワード',
-              controller: password,
-              //isVisible: true,
-            ),
-            sized_box,
-            Text(password.text == _password.text?'':'パスワードが一致しません'),
-            textfild(
-              hinttext: 'パスワード（確認用）',
-              controller: _password,
-              //isVisible : true,
-            ),
-            sized_box,
-            ElevatedButton(
-              onPressed: (){editUser();},
-              child: const Text('アカウントを作成'),
-            ),
-          ],
+      appBar: AppBar(
+        title: Text(
+          'アカウント追加',
+          style: Textstyle.titlesize,
+        ),
+        backgroundColor: ColorModel.green,
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Textfild(
+                keybordtype: TextInputType.text,
+                hinttext: '会社名',
+                controller: companyname,
+              ),
+              Sizebox,
+              Textfild(
+                keybordtype: TextInputType.text,
+                hinttext: '住所',
+                controller: adress,
+              ),
+              Sizebox,
+              Textfild(keybordtype:TextInputType.phone,hinttext: '電話番号', controller: phonenum),
+              Sizebox,
+              Textfild(keybordtype:TextInputType.emailAddress,hinttext: 'メールアドレス', controller: email),
+              Sizebox,
+              Textfild(
+                keybordtype: TextInputType.text,
+                hinttext: '代表者名',
+                controller: representative,
+              ),
+              Sizebox,
+              Textfild(
+                keybordtype: TextInputType.visiblePassword,
+                hinttext: 'パスワード',
+                controller: password,
+                //isVisible: true,
+              ),
+              Sizebox,
+              Text(password.text == _password.text ? '' : 'パスワードが一致しません'),
+              Textfild(
+                keybordtype: TextInputType.visiblePassword,
+                hinttext: 'パスワード（確認用）',
+                controller: _password,
+                //isVisible : true,
+              ),
+              Sizebox,
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    await editUser();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('ユーザー登録が完了しました'),
+                        backgroundColor: Colors.blue,
+                      ),
+                    );
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'email-already-in-use') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('すでに登録されているメールアドレスです'),
+                          backgroundColor: ColorModel.red,
+                        ),
+                      );
+                    } else if (e.code == 'invalid-email') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('メールアドレスが正しくありません'),
+                          backgroundColor: ColorModel.red,
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('ユーザー登録が完了しました'),
+                          backgroundColor: Colors.blue,
+                        ),
+                      );
+                    }
+                  }
+                },
+                child: const Text('アカウントを作成'),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class textfild extends HookConsumerWidget{
-  const textfild({
-  super.key,
-  required this.hinttext,
-  required this.controller,
-  this.isVisible = false,
+class Textfild extends HookConsumerWidget {
+  const Textfild({
+    super.key,
+    required this.keybordtype,
+    required this.hinttext,
+    required this.controller,
+    this.isVisible = false,
   });
+
+  final TextInputType keybordtype;
   final String hinttext;
   final TextEditingController controller;
   final bool isVisible;
 
   @override
-  Widget build(BuildContext context,WidgetRef ref){
+  Widget build(BuildContext context, WidgetRef ref) {
     return TextFormField(
       controller: controller,
       //maxLength: isVisible == true?10:null,
@@ -115,4 +154,4 @@ class textfild extends HookConsumerWidget{
   }
 }
 
-SizedBox sized_box = const SizedBox(height: 30);
+SizedBox Sizebox = const SizedBox(height: 30);

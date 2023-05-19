@@ -1,27 +1,30 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:working_app/model.dart';
+import 'package:working_app/style.dart';
 import 'package:working_app/pages/employee_pages/custom_drawer.dart';
 import 'package:intl/intl.dart';
 
 class MonthlyReportPage extends HookConsumerWidget{
   MonthlyReportPage ({super.key});
 
-  @override
   DateFormat monthformat = DateFormat('M');
   DateTime month = DateTime.now();
+
+  @override
   Widget build(BuildContext context,WidgetRef ref){
     return Scaffold(
-      appBar: const appbarmodel(title: '月報'),
-      endDrawer: const CustomDrawer(),
+      appBar: AppBar(
+        title: Text('月報',style: Textstyle.titlesize,),
+        backgroundColor: ColorModel.green,
+      ),
+      endDrawer: CustomDrawer(),
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
           child:Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('${monthformat.format(month)}月月報',style: textstyle.titlesize),
+              Text('${monthformat.format(month)}月月報',style: Textstyle.titlesize),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child:DataTable(

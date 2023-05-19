@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:working_app/model.dart';
+import 'package:working_app/style.dart';
 import 'package:working_app/pages/employee_pages/account_edit_page.dart';
 import 'package:working_app/pages/administrator_pages/administrator_login_page.dart';
 import 'package:working_app/pages/employee_pages/top_page.dart';
 
 class LoginPage extends HookConsumerWidget {
+  LoginPage({super.key});
+
   final firebaseAuthProvider =
       Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
   final usernameProvider =
@@ -16,18 +18,17 @@ class LoginPage extends HookConsumerWidget {
 
   bool signCheck = false;
 
-  void checkSignin(){
-    FirebaseAuth.instance.authStateChanges().listen((User?user) {
-      if(user == null){
+  void checkSignin() {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
         signCheck = false;
-      }else{
+      } else {
         signCheck = true;
       }
     });
   }
 
-  @override
-  void initState(){
+  void initState() {
     checkSignin();
   }
 
@@ -47,68 +48,74 @@ class LoginPage extends HookConsumerWidget {
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              text_fild(
-                hinttext: 'ユーザー名（メールアドレス）',
-                controller: username,
-                pass: false,
-              ),
-              const SizedBox(height: 20),
-              text_fild(hinttext: 'パスワード', controller: password),
-              const SizedBox(height: 25),
-              ElevatedButton(
-                onPressed: () async{
-                  try {
-                    final User? user =
-                        (await firebaseauth.signInWithEmailAndPassword(
-                      email: username.text,
-                      password: password.text,
-                    )).user;
-                    if (user != null)
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) {
-                          return TopPage();
-                        }),
-                      );
-                  } on FirebaseAuthException catch(e){
-                    if (e.code == 'user-not-found'){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text('登録されていないメールアドレスです'),
-                            backgroundColor: ColorModel.red,
-                            duration: const Duration(seconds: 2),
-                          ),
-                      );
-                    }else if(e.code == 'wrong-password'){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text('パスワードが違います'),
-                          backgroundColor: ColorModel.red,
-                          duration: const Duration(seconds: 2),
-                        ),
-                      );
-                    }
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Textfild(
+              keybordtype: TextInputType.emailAddress,
+              hinttext: 'ユーザー名（メールアドレス）',
+              controller: username,
+              pass: false,
+            ),
+            const SizedBox(height: 20),
+            Textfild(
+                keybordtype: TextInputType.visiblePassword,
+                hinttext: 'パスワード',
+                controller: password),
+            const SizedBox(height: 25),
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  final User? user =
+                      (await firebaseauth.signInWithEmailAndPassword(
+                    email: username.text,
+                    password: password.text,
+                  ))
+                          .user;
+                  if (user != null)
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) {
+                        return TopPage();
+                      }),
+                    );
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'user-not-found') {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text('登録されていないメールアドレスです'),
+                        backgroundColor: ColorModel.red,
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  } else if (e.code == 'wrong-password') {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text('パスワードが違います'),
+                        backgroundColor: ColorModel.red,
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
                   }
-                },
-                child: const Text('ログイン'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => AccountEditPage(),
-                  ),
+                }
+              },
+              child: const Text('ログイン'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => AccountEditPage(),
                 ),
-                child: const Text('アカウントをお持ちでない方はこちらから'),
               ),
-              TextButton(
-                onPressed: () => {Navigator.of(context).push(MaterialPageRoute(builder: (context) => AdministratorLoginPage()))},
-                child: const Text('管理者の方はこちらから'),
-              )
-            ],
-          ),
+              child: const Text('アカウントをお持ちでない方はこちらから'),
+            ),
+            TextButton(
+              onPressed: () => {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => AdministratorLoginPage()))
+              },
+              child: const Text('管理者の方はこちらから'),
+            )
+          ],
         ),
       ),
     );
@@ -117,14 +124,16 @@ class LoginPage extends HookConsumerWidget {
 
 final isObscureProvider = StateProvider((ref) => true);
 
-class text_fild extends HookConsumerWidget {
-  const text_fild({
+class Textfild extends HookConsumerWidget {
+  const Textfild({
     super.key,
+    required this.keybordtype,
     required this.hinttext,
     required this.controller,
     this.pass = true,
   });
 
+  final TextInputType keybordtype;
   final String hinttext;
   final TextEditingController controller;
   final bool pass;
@@ -138,6 +147,7 @@ class text_fild extends HookConsumerWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: TextFormField(
+        keyboardType: keybordtype,
         obscureText: pass ? isObscure : false,
         decoration: InputDecoration(
           suffixIcon: pass

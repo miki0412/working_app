@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:working_app/model.dart';
+import 'package:working_app/style.dart';
 import 'package:working_app/pages/employee_pages/custom_drawer.dart';
 
 class ConstructionRegistrationPage extends HookConsumerWidget {
@@ -39,8 +39,11 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
         .size
         .width;
     return Scaffold(
-      appBar: const appbarmodel(title: '工事登録ページ'),
-      endDrawer: const CustomDrawer(),
+      appBar: AppBar(
+        title: Text('工事登録ページ',style: Textstyle.titlesize),
+        backgroundColor: ColorModel.green,
+      ),
+      endDrawer: CustomDrawer(),
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -59,6 +62,7 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: TextFormField(
+                  keyboardType: TextInputType.text,
                   controller: constructionname,
                   decoration: const InputDecoration(
                       hintText: '工事名を入力して下さい',
@@ -73,6 +77,7 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: TextFormField(
+                  keyboardType: TextInputType.text,
                   controller: adress,
                   decoration: const InputDecoration(
                     hintText: '工事場所を入力して下さい',
@@ -89,6 +94,7 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: TextFormField(
+                      keyboardType: TextInputType.datetime,
                       controller: start,
                       decoration: const InputDecoration(
                         hintText: '開始日 年/月/日',
@@ -103,6 +109,7 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: TextFormField(
+                      keyboardType: TextInputType.datetime,
                       controller: end,
                       decoration: const InputDecoration(
                         hintText: '完了日 年/月/日',
@@ -119,6 +126,7 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: TextFormField(
+                  keyboardType: TextInputType.text,
                   controller: name,
                   decoration: const InputDecoration(
                     hintText: '担当者名を入力して下さい',
@@ -136,6 +144,7 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: TextFormField(
+                      keyboardType: TextInputType.number,
                       controller: contractamount,
                       decoration: const InputDecoration(
                         hintText: '契約金額を入力して下さい',
@@ -155,6 +164,7 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: TextFormField(
+                      keyboardType: TextInputType.number,
                       controller: budget,
                       decoration: const InputDecoration(
                         hintText: '実行予算を入力して下さい',
@@ -166,7 +176,15 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
               SizedBox(
                 width: widthsize,
                 child:ElevatedButton(
-                  onPressed: (){constructionadd();},
+                  onPressed: (){
+                    constructionadd();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('申請が完了しました'),
+                        backgroundColor: Colors.blue,
+                      ),
+                    );
+                    },
                   child: const Text('追加'),
               ),),
             ],
