@@ -6,6 +6,7 @@ import 'package:working_app/pages/employee_pages/custom_drawer.dart';
 import 'package:working_app/pages/employee_pages/dialyreport_page.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:async';
 
 class TopPage extends HookConsumerWidget {
   TopPage({super.key});
@@ -17,7 +18,7 @@ class TopPage extends HookConsumerWidget {
   final DateFormat time = DateFormat('HH:mm:ss');
   
   final weatherProvider = FutureProvider((ref) async{
-    var apiKey = '';
+    var apiKey = '31293b57d5e0e715a4ca700d2b5fb6b4';
     var city = 'Myoko';
     var lang = 'ja';
     var url = Uri.parse('http://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&lang=$lang');
@@ -75,10 +76,7 @@ class TopPage extends HookConsumerWidget {
                     date.format(DateTime.now()),
                     style: const TextStyle(fontSize: 40),
                   ),
-                  Text(
-                    time.format(DateTime.now()),
-                    style: const TextStyle(fontSize: 40),
-                  ),
+                  ClockWidget(),
                 ],
               ),
             ),
@@ -111,5 +109,21 @@ class TopPage extends HookConsumerWidget {
         ),
       ),),
     );
+  }
+}
+
+final clockProvider = StreamProvider<DateTime>((ref){
+  return Stream<DateTime>.periodic(const Duration(seconds: 1),(_){
+    return DateTime.now();
+  });
+});
+
+class ClockWidget extends HookConsumerWidget{
+  @override
+  Widget build(BuildContext context,WidgetRef ref){
+    final clock = ref.watch(clockProvider).value;
+    final formatedTime = DateFormat('HH:mm:ss').format(clock ?? DateTime.now());
+
+    return Text(formatedTime,style:const TextStyle(fontSize:40),);
   }
 }
