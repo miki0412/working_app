@@ -14,10 +14,7 @@ class OffhoursApplicationApproval extends HookConsumerWidget{
         title: Text('時間外申請承認ページ',style: Textstyle.titlesize),
         backgroundColor: ColorModel.green,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 30),
-          child: Column(
+      body: Column(
             children: [
               Row(
                 children: [
@@ -66,9 +63,7 @@ class OffhoursApplicationApproval extends HookConsumerWidget{
               )
             ],
           ),
-        ),
-      ),
-    );
+        );
   }
 }
 

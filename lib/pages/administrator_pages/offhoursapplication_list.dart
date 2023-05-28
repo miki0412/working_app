@@ -18,10 +18,7 @@ class OffhoursapplicationList extends HookConsumerWidget{
         backgroundColor: ColorModel.green,
       ),
       endDrawer: AdminstratorCustomDrawer(),
-      body: SingleChildScrollView(
-        child: Container(
-          //margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-          child: StreamBuilder<QuerySnapshot> (
+      body: StreamBuilder<QuerySnapshot> (
             stream: _offhoursStream,
             builder: (context,snapshot){
               if(snapshot.hasData){
@@ -47,8 +44,6 @@ class OffhoursapplicationList extends HookConsumerWidget{
               }
             },
           ),
-        ),
-      ),
-    );
+        );
   }
 }

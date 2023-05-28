@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class ColorModel{
   static Color primary = const Color(0xFF000000);
@@ -40,4 +42,55 @@ class Dropmenu extends HookConsumerWidget{
     );
   }
 }
+
+class MoneyInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
+      return newValue;
+    }
+
+    final int value = int.parse(newValue.text.replaceAll(',', ''));
+    final formatter = NumberFormat('#,###');
+    final newText = formatter.format(value);
+
+    return newValue.copyWith(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
+    );
+  }
+}
+
+class DateInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.isEmpty) {
+      return newValue;
+    }
+
+    // 入力値から非数字の文字を除去
+    final sanitizedText = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
+
+    // 年、月、日ごとに区切る
+    final formattedText = _formatDate(sanitizedText);
+
+    return TextEditingValue(
+      text: formattedText,
+      selection: TextSelection.collapsed(offset: formattedText.length),
+    );
+  }
+
+  String _formatDate(String text) {
+    if (text.length <= 4) {
+      return text;
+    } else if (text.length <= 6) {
+      return '${text.substring(0, 4)}/${text.substring(4)}';
+    } else {
+      return '${text.substring(0, 4)}/${text.substring(4, 6)}/${text.substring(6)}';
+    }
+  }
+}
+
 

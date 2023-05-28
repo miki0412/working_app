@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,6 +18,12 @@ class LoginPage extends HookConsumerWidget {
       StateProvider.autoDispose((ref) => TextEditingController());
 
   bool signCheck = false;
+
+  void signInTime() async{
+    await FirebaseFirestore.instance.collection('ログイン日時').doc().set({
+      'ログイン日時':DateTime.now(),
+    });
+  }
 
   void checkSignin() {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
@@ -73,6 +80,7 @@ class LoginPage extends HookConsumerWidget {
                   ))
                           .user;
                   if (user != null)
+                    signInTime();
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) {
                         return TopPage();
@@ -111,7 +119,7 @@ class LoginPage extends HookConsumerWidget {
             TextButton(
               onPressed: () => {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => AdministratorLoginPage()))
+                    builder: (context) => AdministratorLoginPage())),
               },
               child: const Text('管理者の方はこちらから'),
             )

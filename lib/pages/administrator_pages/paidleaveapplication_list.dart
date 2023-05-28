@@ -17,10 +17,7 @@ class PaidleaveapplicationList extends HookConsumerWidget{
         backgroundColor: ColorModel.green,
       ),
       endDrawer: AdminstratorCustomDrawer(),
-      body: SingleChildScrollView(
-        child: Container(
-          margin:const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-          child: StreamBuilder<QuerySnapshot>(
+      body: StreamBuilder<QuerySnapshot>(
             stream: _paidleaveStream,
             builder: (context,snapshot){
               if(snapshot.hasData) {
@@ -42,8 +39,6 @@ class PaidleaveapplicationList extends HookConsumerWidget{
               }
             },
           ),
-        ),
-      ),
-    );
+        );
   }
 }

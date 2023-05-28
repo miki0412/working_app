@@ -7,6 +7,7 @@ import 'package:working_app/pages/employee_pages/imformation_page.dart';
 import 'package:working_app/pages/employee_pages/login_page.dart';
 import 'package:working_app/pages/employee_pages/monthly_report_page.dart';
 import 'package:working_app/pages/employee_pages/request_lists_page.dart';
+import 'package:working_app/pages/employee_pages/task_list.dart';
 import 'package:working_app/pages/employee_pages/top_page.dart';
 import 'package:working_app/pages/navigation_provider.dart';
 
@@ -20,6 +21,7 @@ class CustomDrawer extends HookConsumerWidget {
     final navigationState = ref.watch(navigtionProvider);
     switch (navigationState.currentPage) {
       case '/top' : return TopPage();
+      case '/task' : return TaskList();
       case '/request' : return RequestListsPage();
       case '/monthly' : return MonthlyReportPage();
       case '/construction' : return ConstructionRegistrationPage();
@@ -41,6 +43,17 @@ class CustomDrawer extends HookConsumerWidget {
               navigationState.NavigatePage('/top');
             },
             selected: navigationState.currentPage == '/top',
+          ),
+          ListTile(
+            title: Row(children: [
+                const Icon(Icons.task),
+                sizebox,
+                Text('タスク一覧',style: textStyle),
+              ],),
+            onTap: (){
+              navigationState.NavigatePage('/task');
+            },
+            selected: navigationState.currentPage == '/task',
           ),
           ListTile(
             title: Row(

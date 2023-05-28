@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:working_app/style.dart';
 import 'package:working_app/pages/employee_pages/custom_drawer.dart';
 
@@ -15,8 +14,8 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
       '開始':start.text,
       '完了':end.text,
       '担当者名':name.text,
-      '契約金額':moneyformat.format(int.parse(contractamount.text),),
-      '実行予算':moneyformat.format(int.parse(budget.text),),
+      '契約金額':contractamount.text,
+      '実行予算':budget.text,
       '申請時間':DateTime.now(),
     });
   }
@@ -28,8 +27,6 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
   final TextEditingController end = TextEditingController();
   final TextEditingController contractamount = TextEditingController();
   final TextEditingController budget = TextEditingController();
-
-  final moneyformat = NumberFormat('#,###');
 
 
   @override
@@ -94,6 +91,7 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: TextFormField(
+                      inputFormatters: [DateInputFormatter()],
                       keyboardType: TextInputType.datetime,
                       controller: start,
                       decoration: const InputDecoration(
@@ -109,6 +107,7 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: TextFormField(
+                      inputFormatters: [DateInputFormatter()],
                       keyboardType: TextInputType.datetime,
                       controller: end,
                       decoration: const InputDecoration(
@@ -144,6 +143,7 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: TextFormField(
+                      inputFormatters: [MoneyInputFormatter()],
                       keyboardType: TextInputType.number,
                       controller: contractamount,
                       decoration: const InputDecoration(
@@ -164,6 +164,7 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: TextFormField(
+                      inputFormatters: [MoneyInputFormatter()],
                       keyboardType: TextInputType.number,
                       controller: budget,
                       decoration: const InputDecoration(
@@ -194,5 +195,6 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
     );
   }
 }
+
 
 SizedBox sizebox = const SizedBox(height: 20);
