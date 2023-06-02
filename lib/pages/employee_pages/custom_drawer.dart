@@ -6,6 +6,7 @@ import 'package:working_app/pages/employee_pages/employee_man_hour_management_pa
 import 'package:working_app/pages/employee_pages/imformation_page.dart';
 import 'package:working_app/pages/employee_pages/login_page.dart';
 import 'package:working_app/pages/employee_pages/monthly_report_page.dart';
+import 'package:working_app/pages/employee_pages/payment_record_page.dart';
 import 'package:working_app/pages/employee_pages/request_lists_page.dart';
 import 'package:working_app/pages/employee_pages/task_list.dart';
 import 'package:working_app/pages/employee_pages/top_page.dart';
@@ -25,6 +26,7 @@ class CustomDrawer extends HookConsumerWidget {
       case '/request' : return RequestListsPage();
       case '/monthly' : return MonthlyReportPage();
       case '/construction' : return ConstructionRegistrationPage();
+      case '/paymentrecordpage' : return PaymentRecordPage();
       case '/manhourmanagement' : return EmployeeManHourManagementPage();
       case '/info' : return InformationPage();
     }
@@ -84,7 +86,7 @@ class CustomDrawer extends HookConsumerWidget {
           ListTile(
             title: Row(
               children: [
-                const Icon(Icons.app_registration),
+                const Icon(Icons.handyman),
                 sizebox,
                 Text('工事登録', style: textStyle),
               ],
@@ -93,6 +95,19 @@ class CustomDrawer extends HookConsumerWidget {
               navigationState.NavigatePage('/construction');
             },
             selected: navigationState.currentPage == '/construction',
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                const Icon(Icons.currency_yen),
+                sizebox,
+                Text('支払調書', style: textStyle),
+              ],
+            ),
+            onTap: (){
+              navigationState.NavigatePage('/paymentrecordpage');
+            },
+            selected: navigationState.currentPage == '/paymentrecordpage',
           ),
           ListTile(
             title: Row(
@@ -123,7 +138,7 @@ class CustomDrawer extends HookConsumerWidget {
           ListTile(
             title: Row(
               children: [
-                const Icon(Icons.app_registration),
+                const Icon(Icons.logout),
                 sizebox,
                 Text('ログアウト', style: textStyle),
               ],

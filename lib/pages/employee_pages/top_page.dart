@@ -32,7 +32,7 @@ class TopPage extends HookConsumerWidget {
   final DateFormat time = DateFormat('HH:mm:ss');
 
   final weatherProvider = FutureProvider((ref) async {
-    var apiKey = '';
+    var apiKey = '31293b57d5e0e715a4ca700d2b5fb6b4';
     var city = 'Myoko';
     var lang = 'ja';
     var url = Uri.parse(

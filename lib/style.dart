@@ -29,12 +29,12 @@ class Dropmenu extends HookConsumerWidget{
 
   @override
   Widget build(BuildContext context,WidgetRef ref){
-    final _providers = ref.watch(providers);
+    final provider = ref.watch(providers);
     return DropdownButton(
         isExpanded: true,
         underline: Container(),
         items: lists.map((String lists) => DropdownMenuItem(value: lists,child: Text(lists))).toList(),
-        value: _providers,
+        value: provider,
         onChanged: (value){
           ref.read(providers.notifier).state = value!;
           controller.text = value.toString()!;
@@ -92,5 +92,31 @@ class DateInputFormatter extends TextInputFormatter {
     }
   }
 }
+
+class TimeInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String formattedValue = _formatTime(newValue.text);
+    return newValue.copyWith(
+      text: formattedValue,
+      selection: TextSelection.collapsed(offset: formattedValue.length),
+    );
+  }
+
+  String _formatTime(String input) {
+    // 入力されたテキストを数値に変換します
+    int time = int.tryParse(input) ?? 0;
+
+    // 時間の制約を設ける場合は、以下のような処理を追加できます
+    // time = time.clamp(0, 23);
+
+    // 〇〇:〇〇形式に変換します
+    String formattedTime = '${time.toString().padLeft(2, '0')}:${(time % 60).toString().padLeft(2, '0')}〜${time.toString().padLeft(2, '0')}:${(time % 60).toString().padLeft(2, '0')}';
+
+    return formattedTime;
+  }
+}
+
 
 

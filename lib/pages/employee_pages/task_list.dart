@@ -29,7 +29,11 @@ class TaskList extends HookConsumerWidget {
         backgroundColor: ColorModel.green,
       ),
       endDrawer: CustomDrawer(),
-      body:  StreamBuilder<QuerySnapshot>(
+      body:  Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+        child:Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children:[const Text('右へスライドで完了済みタスク\n左へスライドでタスクの削除が行えます。',style: TextStyle(fontSize: 15),),StreamBuilder<QuerySnapshot>(
               stream: _tasklistStream,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
@@ -41,16 +45,22 @@ class TaskList extends HookConsumerWidget {
                           taskDatas[index].data()! as Map<String, dynamic>;
                       return Dismissible(
                           key: UniqueKey(),
-                          direction: DismissDirection.endToStart,
-                          background:Container(
+                          direction: DismissDirection.horizontal,
+                        onDismissed: (direction) async{
+                          await FirebaseFirestore.instance.collection('タスク').doc(taskDatas[index].id).delete();
+                        },
+                          background: Container(
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            color: Colors.blue,
+                            child: const Text('削除'),
+                          ),
+                          secondaryBackground:Container(
                             alignment: Alignment.centerRight,
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            color: Colors.red,
+                            color: Colors.orange,
                             child: const Text('完了'),
                           ),
-                          onDismissed: (direction) async{
-                            await FirebaseFirestore.instance.collection('タスク').doc(taskDatas[index].id).delete();
-                          },
                           child: ListTile(
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +82,7 @@ class TaskList extends HookConsumerWidget {
                     child: Text('登録されたタスクはありません', style: Textstyle.titlesize),
                   );
                 }
-              }),
+              }),],),),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
