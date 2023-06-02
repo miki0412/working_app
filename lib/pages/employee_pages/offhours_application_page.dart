@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/style.dart';
-import 'package:working_app/pages/employee_pages/custom_drawer.dart';
 
 
 class OffhoursApplicationPage extends HookConsumerWidget{
@@ -99,7 +98,7 @@ class OffhoursApplicationPage extends HookConsumerWidget{
                     isExpanded:true,
                     underline: Container(),
                     items: const [
-                      DropdownMenuItem(value:'残業場所を選択してください',child: Text('残業場所を選択ださい'),),
+                      DropdownMenuItem(value:'残業場所を選択してください',child: Text('残業場所を選択してください'),),
                       DropdownMenuItem(value:'会社',child: Text('会社'),),
                       DropdownMenuItem(value:'現場',child: Text('現場'),),
                     ],

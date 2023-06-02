@@ -47,8 +47,8 @@ class ConstructionRegistrationPage extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('・工事が発生したら必ず登録をおこなって下さい'),
-              const Text('・部長が決済後一覧へ登録され選択可能になります'),
+              const Text('＊工事が発生したら必ず登録をおこなって下さい'),
+              const Text('＊部長が決済後一覧へ登録され選択可能になります'),
               Text('（注意事項）\n金額等確定していなくても稼働した場合は必ず登録し、金額が確定次第一覧より編集して下さい',style: TextStyle(color: ColorModel.red),),
               const SizedBox(height: 20),
               Container(

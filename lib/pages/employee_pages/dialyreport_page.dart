@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:working_app/style.dart';
-import 'package:working_app/pages/employee_pages/custom_drawer.dart';
 
 class DialyreportPage extends HookConsumerWidget {
   DialyreportPage({super.key});
@@ -88,28 +87,28 @@ class DialyreportPage extends HookConsumerWidget {
                   ),
                 ],
               ),
-              Dialy_cell(
+              Dialycell(
                 keybordtype: TextInputType.datetime,
                 time: time,
                 detail: detail,
                 site: site,
                 businessconent: businessconent,
               ),
-              Dialy_cell(
+              Dialycell(
                 keybordtype: TextInputType.datetime,
                 time: time,
                 detail: detail,
                 site: site,
                 businessconent: businessconent,
               ),
-              Dialy_cell(
+              Dialycell(
                 keybordtype: TextInputType.datetime,
                 time: time,
                 detail: detail,
                 site: site,
                 businessconent: businessconent,
               ),
-              Dialy_cell(
+              Dialycell(
                 keybordtype: TextInputType.datetime,
                 time: time,
                 detail: detail,
@@ -142,6 +141,7 @@ class DialyreportPage extends HookConsumerWidget {
 
 class Textfild extends StatelessWidget {
   const Textfild({
+    super.key,
     required this.text,
     required this.controller,
   });
@@ -161,14 +161,14 @@ class Textfild extends StatelessWidget {
   }
 }
 
-class Dialy_cell extends HookConsumerWidget {
-  Dialy_cell({
-    super.key,
-    required this.keybordtype,
-    required this.time,
-    required this.detail,
-    required this.site,
-    required this.businessconent,
+class Dialycell extends HookConsumerWidget {
+  Dialycell({
+  super.key,
+  required this.keybordtype,
+  required this.time,
+  required this.detail,
+  required this.site,
+  required this.businessconent,
   });
   final TextInputType keybordtype;
   final TextEditingController time;

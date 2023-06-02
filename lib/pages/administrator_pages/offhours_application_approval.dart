@@ -7,6 +7,32 @@ class OffhoursApplicationApproval extends HookConsumerWidget{
   OffhoursApplicationApproval(this.offhourData);
   final DocumentSnapshot offhourData;
 
+  void approvaldata() async {
+    await FirebaseFirestore.instance.collection('時間外申請済み').doc().set({
+      '月':offhourData['month'],
+      '日':offhourData['day'],
+      '開始時':offhourData['hour'],
+      '開始分':offhourData['minute'],
+      '終了時':offhourData['_hour'],
+      '終了分':offhourData['_minute'],
+      '理由':offhourData['thepurpose'],
+      '場所':offhourData['offhourswokplace'],
+    });
+  }
+
+  void rejectiondata() async {
+    await FirebaseFirestore.instance.collection('時間外拒否').doc().set({
+      '月':offhourData['month'],
+      '日':offhourData['day'],
+      '開始時':offhourData['hour'],
+      '開始分':offhourData['minute'],
+      '終了時':offhourData['_hour'],
+      '終了分':offhourData['_minute'],
+      '理由':offhourData['thepurpose'],
+      '場所':offhourData['offhourswokplace'],
+    });
+  }
+
   @override
   Widget build(BuildContext context,WidgetRef ref){
     return Scaffold(
@@ -50,13 +76,19 @@ class OffhoursApplicationApproval extends HookConsumerWidget{
                   SizedBox(
                     width: 170,
                     child:ElevatedButton(
-                      onPressed: (){},
+                      onPressed: () async {
+                        await FirebaseFirestore.instance.collection('時間外申請').doc(offhourData.id).delete();
+                        approvaldata();
+                      },
                       child: const Text('承  認',style: TextStyle(fontSize: 20),),
                   ),),
                   SizedBox(
                     width: 170,
                     child:ElevatedButton(
-                      onPressed: (){},
+                      onPressed: () async {
+                        await FirebaseFirestore.instance.collection('時間外申請').doc(offhourData.id).delete();
+                        rejectiondata();
+                      },
                       child: const Text('拒  否',style: TextStyle(fontSize: 20),),
                   ),),
                 ],
